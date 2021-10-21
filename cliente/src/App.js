@@ -1,3 +1,5 @@
+
+
 import logo from './logo.svg';
 import './App.css';
 import Pag1 from './pag1'
@@ -17,7 +19,5 @@ const consuta = () =>{
   console.log("peticion realizada");
 }
 
-
-
-
 export default App;
+

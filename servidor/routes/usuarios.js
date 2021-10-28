@@ -4,10 +4,21 @@ var router = express.Router();
 
 const service = require("./connection.js");
 const cors = require("cors");
+const app = require("../servidor.js");
 
 router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+var usuario_logueado = {user: "Adri", rol: "admin"};
+//var usuario_logueado;
+
+router.get('/usuario_logueado', (req,res)=>{
+  res.send(usuario_logueado)
+})
+
+
+
 
 router.post("/login", async function (req, res, next) {
   const { color, id_prueba } = req.body;
@@ -29,6 +40,8 @@ router.post("/login", async function (req, res, next) {
   }
 });
 
+
+
 router.post("/crear_usuario", async function (req, res, next) {
   const { color, id_prueba} = req.body;
 
@@ -44,6 +57,8 @@ router.post("/crear_usuario", async function (req, res, next) {
         .json({ message: "Usuario creado correctamente"});
   }
 });
+
+
 
 
 router.put("/modificar_usuario", async function (req, res, next) {

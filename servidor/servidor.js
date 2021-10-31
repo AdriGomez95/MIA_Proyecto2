@@ -21,7 +21,7 @@ app.get('/', (req, res)=>{
 
 */
 
-/*
+
 
 require("dotenv").config();
 
@@ -43,18 +43,54 @@ app.listen(9000, () => {
   console.debug("Servidor escuchando en puerto: 9000");
 });
 
+
+
+
+
+var puestos = [{puesto:'Developer', salario:'Q7000'}]
+var empleados = [{usuario:'Adri', password:'123', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'admin', departamento:'Logistica'}]
+var departamentos = ['1','2','3'];
+//var usuario_logueado = {user: "Adri", rol: "aplicante"};
+//var usuario_logueado = {user: "Adri", rol: "admin"};
+//var usuario_logueado = {user: "Adri", rol: "coordinador"};
+//var usuario_logueado = {user: "Adri", rol: "reclutador"};
+var usuario_logueado;
+
+app.get('/usuario_logueado', (req,res)=>{
+  res.send(usuario_logueado)
+})
+
+app.get('/limpiar_logueo', (req,res)=>{
+  usuario_logueado = undefined;
+  res.send(usuario_logueado)
+})
+
+app.get('/departamentos', (req,res)=>{
+  res.send(departamentos)
+})
+
+app.get('/listado_empleados', (req,res)=>{
+  res.send(empleados)
+})
+
+app.get('/listado_puestos', (req,res)=>{
+  res.send(puestos)
+})
+
+
+
+
 module.exports = app;
-*/
 
 
 
 
+/*
 var express = require("express");
 var app = express();
 const cors = require("cors");
 
-
-/* CONEXION CON LA DB ORACLE */
+//CONEXION CON LA DB
 var oracledb = require("oracledb");
 const connect_db = {
   user: 'dbadri',
@@ -64,16 +100,60 @@ const connect_db = {
 require("dotenv").config();
 app.use(cors());
 const port = 9000;
-/* ***** ***** ***** ***** */
+//FIN
 
 
+
+
+
+
+
+
+
+var puestos = [{puesto:'Developer', salario:'Q7000'}]
+var empleados = [{usuario:'Adri', password:'123', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'admin', departamento:'Logistica'}]
+var departamentos = ['1','2','3'];
+//var usuario_logueado = {user: "Adri", rol: "aplicante"};
 var usuario_logueado = {user: "Adri", rol: "admin"};
-//var usuario_logueado = {user: "Adri", rol: "trabajador"};
+//var usuario_logueado = {user: "Adri", rol: "coordinador"};
+//var usuario_logueado = {user: "Adri", rol: "reclutador"};
 //var usuario_logueado;
 
 app.get('/usuario_logueado', (req,res)=>{
   res.send(usuario_logueado)
 })
+
+app.get('/limpiar_logueo', (req,res)=>{
+  usuario_logueado = undefined;
+  res.send(usuario_logueado)
+})
+
+app.get('/departamentos', (req,res)=>{
+  res.send(departamentos)
+})
+
+app.get('/listado_empleados', (req,res)=>{
+  res.send(empleados)
+})
+
+app.get('/listado_puestos', (req,res)=>{
+  res.send(puestos)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/con', (req, res)=>{
   let datos;
@@ -109,3 +189,6 @@ app.get('/con', (req, res)=>{
 app.listen(port, async () => {
   console.debug("Servidor escuchando en puerto: 9000");
 });
+
+
+*/

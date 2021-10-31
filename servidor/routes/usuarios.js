@@ -10,14 +10,6 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-var usuario_logueado = {user: "Adri", rol: "admin"};
-//var usuario_logueado;
-
-router.get('/usuario_logueado', (req,res)=>{
-  res.send(usuario_logueado)
-})
-
-
 
 
 router.post("/login", async function (req, res, next) {

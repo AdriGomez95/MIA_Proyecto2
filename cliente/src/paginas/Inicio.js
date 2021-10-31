@@ -1,9 +1,8 @@
-//import React, {useEffect, useState}  from 'react';
 import React, {useEffect, useState}  from 'react';
 import Carrusel from '../componentes/Carrusel'
 import Barra from '../componentes/Barra'
 import FiltraPlazas from '../componentes/FiltraPlazas'
-import VerUsuarios from '../componentes/VerUsuarios'
+import VerUsuarios from '../componentes/VerUsuarios.js'
 
 
 
@@ -31,6 +30,7 @@ const Inicio = () => {
 
     if(usuario_logueado !== undefined)
     {
+        // ES EL ADMINISTRADOR   
         if(usuario_logueado.rol === "admin"){
             return (
                 <div>
@@ -40,7 +40,9 @@ const Inicio = () => {
                     <VerUsuarios/>
                 </div>
             )
-        }else{
+
+        // ES APLICANTE   
+        }else if ( usuario_logueado.rol === "aplicante" ){
             return (
                 <div>
                     <Barra/>
@@ -49,7 +51,35 @@ const Inicio = () => {
                 </div>
             )
 
+        
+        // ES RECLUTADOR O REVISOR DE EXPEDIENTES   
+        }else  if ( usuario_logueado.rol === "reclutador" ){
+            return (
+                <div>
+                    <Barra/>
+                    <h1>contenido del reclutador</h1>
+                </div>
+            )
+
+        
+
+
+        // ES COORDINADOR  
+        }else  if ( usuario_logueado.rol === "coordinador" ){
+            return (
+                <div>
+                    <Barra/>
+                    <h1>contenido del coordinador</h1>
+                </div>
+            )
+
         }
+
+
+
+
+
+    // ES UN USUARIO GUEST Y NO ESTA LOGUEADO  
     }else{
         return (
             <div>

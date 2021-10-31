@@ -9,7 +9,7 @@ import Img6 from '../imagenes/img6.jpg'
 
 
 
-const Carrusel = props => {
+const Carrusel = () => {
     return (
         <div>
             {/* carrusel de imagenes */}

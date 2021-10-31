@@ -1,9 +1,47 @@
-import React from 'react';
-
+import React, {useEffect, useState} from 'react';
 import { Form,Row,Col,Button, Accordion,Spinner,Container} from 'react-bootstrap';
 
+const state = {
+  color: '',
+  id_prueba: '',
+  entrada: false,
+  tipoUsuario: 0,
+};
 
 const Login = () => {
+/*
+  //const [usuario_logueado, setUsuario_logueado] = useState(undefined)
+
+
+  const ConsultaUsuario = () =>{
+
+    var raw = JSON.stringify({
+      "color": "verde",
+      "id_prueba": "3"
+    });
+
+    var consultilla={
+      "color": this.state.color,
+      "id_usu
+    }
+    
+    var formdata = new FormData();
+    var requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(),
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:9000/usuarios/login", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+      console.console.log(requestOptions);
+
+  }
+*/
+
+
     return (
         <div class="p-5 mb-2 bg-info text-dark">
           <Container>
@@ -65,7 +103,7 @@ const Login = () => {
 
             <Row>
               <div className="d-grid gap-2">
-                <Button variant="outline-primary" size="lg">
+                <Button variant="outline-primary" size="lg" onClick={ConsultaUsuario}>
                   iniciar
                 </Button>
                 <Button variant="outline-secondary" size="lg" href='/'>

@@ -1,12 +1,13 @@
 import React from 'react';
 import Barra from '../componentes/Barra'
+import FiltrarDocumentos from '../componentes/FiltrarDocumentos'
 
 
 const RevisarDocumentos = () => {
     return (
         <div>
         <Barra/>
-        <h1>documentos por revisar</h1>
+        <FiltrarDocumentos/>
         
         </div>
     )

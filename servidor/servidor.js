@@ -47,14 +47,14 @@ app.listen(9000, () => {
 
 
 
-var puestos = [{puesto:'Developer', salario:'Q7000'}]
-var empleados = [{usuario:'Adri', password:'123', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'admin', departamento:'Logistica'}]
-var departamentos = ['1','2','3'];
-//var usuario_logueado = {user: "Adri", rol: "aplicante"};
-//var usuario_logueado = {user: "Adri", rol: "admin"};
+
+//################## MANEJO DE ROLES DE USUARIO ##################
+//(admin, coordinador, reclutador, aplicante, undefined que es guest)
+var usuario_logueado = {user: "Adri", rol: "admin"};
 //var usuario_logueado = {user: "Adri", rol: "coordinador"};
 //var usuario_logueado = {user: "Adri", rol: "reclutador"};
-var usuario_logueado;
+//var usuario_logueado = {user: "Adri", rol: "aplicante"};
+//var usuario_logueado;
 
 app.get('/usuario_logueado', (req,res)=>{
   res.send(usuario_logueado)
@@ -65,19 +65,48 @@ app.get('/limpiar_logueo', (req,res)=>{
   res.send(usuario_logueado)
 })
 
+
+//################## MANEJO DE DEPARTAMENTOS ##################
+var departamentos = ['1','2','3'];
+
 app.get('/departamentos', (req,res)=>{
   res.send(departamentos)
 })
 
+
+//################## MANEJO DE EMPLEADOS ##################
+var empleados = [{usuario:'Adri', password:'123', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'admin', departamento:'Logistica'},{usuario:'hhhhh', password:'hhh', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'hhhh', departamento:'hhhh'}]
+
 app.get('/listado_empleados', (req,res)=>{
   res.send(empleados)
 })
+
+
+//################## MANEJO DE PUESTOS ##################
+var puestos = [{puesto:'Developer', salario:'Q7000', categoria:'categoria 1', departamento:'departamento 1'},{puesto:'Secretaria', salario:'Q7000', categoria:'categoria 2', departamento:'departamento 2'},{puesto:'Maestra', salario:'Q7000', categoria:'categoria 3', departamento:'departamento 3'}]
 
 app.get('/listado_puestos', (req,res)=>{
   res.send(puestos)
 })
 
 
+//################## MANEJO DE APLICANTES ##################
+//(aceptado rechazado pendiente, contratado despedido, calificador de puestos)
+var aplicantes = [{id:1,nombre:'aplicante 1',apellido:'aplicante 1',dpi:1,puesto:'puesto',salario:'Q5000',estado:'aceptado'},{id:2,nombre:'aplicante 2',apellido:'aplicante 2',dpi:2,puesto:'puesto 2',salario:'Q8000',estado:'pendiente'}]
+
+app.get('/aplicantes', (req,res)=>{
+  res.send(aplicantes)
+})
+
+
+//################## MANEJO DE DOCUMENTOS ##################
+//(aceptado rechazado pendiente)
+var documentos = [{id:1,id_usuario:1,nombre:'CV',estado:'pendiente',motivo:'-',link:'google.com',formato:'PDF',rechazos:0},{id:2,id_usuario:2,nombre:'Antecedentes',estado:'pendiente',motivo:'-',link:'google.com',formato:'JPG',rechazos:0}]
+//var id_revision_docs = -1;
+
+app.get('/documentos', (req,res)=>{
+  res.send(documentos)
+})
 
 
 module.exports = app;

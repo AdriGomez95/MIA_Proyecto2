@@ -103,7 +103,7 @@ const Barra = () => {
                                 <h1>revisior expedientes</h1>
                                 <Nav.Link href="/">principal</Nav.Link>
                                 <Nav.Link href="/revisar_aplicantes">aceptar/rechazar aplicantes</Nav.Link>
-                                <Nav.Link href="/revisar_documentos">revisar documentos</Nav.Link>
+                                <Nav.Link href="/revisar_documentos">aceptar/rechazar documentos</Nav.Link>
                                 <Nav.Link href="/mensaje">Mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>
                             </Nav>
@@ -126,7 +126,6 @@ const Barra = () => {
                             <Nav className="me-auto">
                                 <h1>coordinador</h1>
                                 <Nav.Link href="/">principal</Nav.Link>
-                                <Nav.Link href="#">componer</Nav.Link>
                                 <Nav.Link href="/administrar_planilla">administrar planilla</Nav.Link>
                                 <Nav.Link href="/mensaje">Mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>

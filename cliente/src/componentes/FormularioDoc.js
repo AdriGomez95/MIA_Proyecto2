@@ -3,14 +3,10 @@ import { Form, Button } from 'react-bootstrap';
 
 
 
-            /*
-            <br/><br/>
-            <h1 className="h1">Llena el formulario</h1> 
-            <button type="button" class="btn btn-outline-warning">Enviar datos</button>
-            <br/><br/>
-            */
 
 const FormularioDoc = () => {
+
+
     return (
         <div>            
             <br/><br/>
@@ -26,6 +22,11 @@ const FormularioDoc = () => {
 
 
             <Form.Label column lg={2}>
+                Nombre del puesto
+            </Form.Label>                   
+            <Form.Control type="text" placeholder="Normal text" />
+
+            <Form.Label column lg={2}>
                 DPI
             </Form.Label>                   
             <Form.Control type="text" placeholder="Normal text" />
@@ -35,7 +36,6 @@ const FormularioDoc = () => {
             </Form.Label>                    
             <Form.Control type="password" placeholder="Password" />
                    
-
             <Form.Label column lg={2}>
                 Nombres
             </Form.Label>                   

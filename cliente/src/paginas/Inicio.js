@@ -57,7 +57,10 @@ const Inicio = () => {
             return (
                 <div>
                     <Barra/>
-                    <h1>contenido del reclutador</h1>
+                    <br/><br/>
+                    <center>
+                        <h1>¡Bienvenido reclutador/revisor!</h1>
+                    </center>
                 </div>
             )
 
@@ -69,7 +72,10 @@ const Inicio = () => {
             return (
                 <div>
                     <Barra/>
-                    <h1>contenido del coordinador</h1>
+                    <br/><br/>
+                    <center>
+                        <h1>¡Bienvenido coordinador!</h1>
+                    </center>
                 </div>
             )
 

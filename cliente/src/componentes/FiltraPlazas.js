@@ -22,6 +22,16 @@ const FiltraPlazas = () => {
             label: 'Salario',
             field: 'salario',
             width: 200,
+            },
+            {
+            label: 'Categoria',
+            field: 'categoria',
+            width: 200,
+            },
+            {
+            label: 'Departamento',
+            field: 'departamento',
+            width: 200,
             }
         ]
         

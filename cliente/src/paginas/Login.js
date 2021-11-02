@@ -1,28 +1,29 @@
-import React, {useEffect, useState} from 'react';
+//import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { Form,Row,Col,Button, Accordion,Spinner,Container} from 'react-bootstrap';
-
+/*
 const state = {
   color: '',
   id_prueba: '',
   entrada: false,
   tipoUsuario: 0,
 };
-
+*/
 const Login = () => {
-/*
+
   //const [usuario_logueado, setUsuario_logueado] = useState(undefined)
 
-
+/*
   const ConsultaUsuario = () =>{
 
     var raw = JSON.stringify({
-      "color": "verde",
+      "color": "azul",
       "id_prueba": "3"
     });
 
     var consultilla={
       "color": this.state.color,
-      "id_usu
+      "id_prueba": this.state.color
     }
     
     var formdata = new FormData();
@@ -103,7 +104,7 @@ const Login = () => {
 
             <Row>
               <div className="d-grid gap-2">
-                <Button variant="outline-primary" size="lg" onClick={ConsultaUsuario}>
+                <Button variant="outline-primary" size="lg" >{/*onClick={ConsultaUsuario}>*/}
                   iniciar
                 </Button>
                 <Button variant="outline-secondary" size="lg" href='/'>

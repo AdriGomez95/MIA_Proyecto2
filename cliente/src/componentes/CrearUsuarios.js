@@ -59,26 +59,6 @@ const CrearUsuarios = () => {
                 </Row>
                 <Row>
                     <Form.Label column lg={2}>
-                    Fecha de inicio
-                    </Form.Label>
-                    <Col>
-                    <Form.Control type="text" placeholder="Normal text" />
-                    </Col>
-                    <Col>
-                    </Col>
-                </Row>
-                <Row>
-                    <Form.Label column lg={2}>
-                    Fecha fin
-                    </Form.Label>
-                    <Col>
-                    <Form.Control type="text" placeholder="Normal text" />
-                    </Col>
-                    <Col>
-                    </Col>
-                </Row>
-                <Row>
-                    <Form.Label column lg={2}>
                     Rol
                     </Form.Label>
                     <Col>

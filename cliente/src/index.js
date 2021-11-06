@@ -16,18 +16,19 @@ ReactDOM.render(
 );
 
 
+
+
 /*
-
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Pruebita from './Pruebita';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Pruebita />
   </React.StrictMode>,
   document.getElementById('root')
 );

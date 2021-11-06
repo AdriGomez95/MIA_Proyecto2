@@ -1,13 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Form,Button,InputGroup,FormControl} from 'react-bootstrap';
-import Barra from './Barra'
+import Barra from './Barra';
+import xmljs from 'xml2js';
 
 
 
 
 const CargaMasiva = () => {
+    const [texto, setTexto] = useState('')
+    const [carga, setCarga] = useState({})
+    let fileReader;
 
+    const findFile = (evento) => {
+        var lectura = evento.target.files[0];
+        fileReader = new FileReader();
+        fileReader.readAsText(lectura);
+        fileReader.onloadend = readFile;
+    }
 
+    const readFile = (e) => {
+        const datos = fileReader.result;
+        setTexto(datos)
+        xmljs.parseString(datos, (err, res) => {
+            const json = JSON.stringify(res,null,4);
+            const tojson = JSON.parse(json);
+            setCarga(tojson);
+        });
+
+    }
+
+    const setBase = () => {
+        console.log(carga);
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "datosDeCarga": carga
+        });
+
+        var requesOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/CMS", requesOptions)
+
+        setTexto('')
+        setCarga({})
+    }
 
     return (
         <div>
@@ -23,11 +65,16 @@ const CargaMasiva = () => {
             </InputGroup>
 
             <Form>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                    <Form.Label>Ruta </Form.Label>
+                
+                <Form.Group className="mb-3">
+                    <Form.Label>Archivo </Form.Label>
+                    <Form.Control type="file" id="file" acept='.xml' onChange={e=>findFile(e)}/>
                 </Form.Group>
 
-                <Button  variant="outline-info" size="lg">
+
+
+
+                <Button  variant="outline-info" size="lg" onClick={setBase}>
                     cargar archivo
                 </Button>  
 
@@ -35,7 +82,7 @@ const CargaMasiva = () => {
                 <br/> <br/> <br/>
                 <h2>Informacion del archivo convertido a json</h2>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">   
-                <Form.Control as="textarea" rows={3} placeholder='hola'/> </Form.Group>
+                <Form.Control as="textarea" rows={3} placeholder='aqui el contenido'/> </Form.Group>
             </Form>
 
       

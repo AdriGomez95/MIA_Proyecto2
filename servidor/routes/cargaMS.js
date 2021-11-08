@@ -36,6 +36,7 @@ DELETE FROM PUESTO_REQUISITOS pr
 var formatosrepetidos = [];
 var categoriasrepetidos = [];
 var requisitosrepetidos = [];
+var formato_requisito_repetidos = [];
 
 
 
@@ -46,7 +47,7 @@ var requisitosrepetidos = [];
         //console.log(data)
         aqui(data)
         console.log("adios :)")
-        //console.log(formatosrepetidos)
+        console.log(formato_requisito_repetidos)
     })
   
   
@@ -57,7 +58,7 @@ var requisitosrepetidos = [];
     }
   
     const aqui2 = (array) =>{
-        console.log("********* arrays ********* ")
+        //console.log("********* arrays ********* ")
         for(let i=0; i<=50; i++){
             if(array.departamento[i]!==undefined){
                 //console.log(array.departamento)
@@ -75,7 +76,7 @@ var requisitosrepetidos = [];
 
   
     const departamentoDatos = (objeto) => {
-        console.log(">>>>>>>>>> Datos del departamento >>>>>>>>>> ")
+        //console.log(">>>>>>>>>> Datos del departamento >>>>>>>>>> ")
         for(let i=0; i<=50; i++){
             if(objeto[i]!==undefined){
     
@@ -228,14 +229,45 @@ var requisitosrepetidos = [];
                     formatosrepetidos.push({...objeto[i]})
                     //console.log(formatosrepetidos)
                     service.connect(`INSERT INTO FORMATO (NOMBRE) VALUES('${nombre_formato}')`)
+
+                    setTimeout(()=> service.connect(`INSERT INTO FORMATO_REQUISITOS (ID_FORMATO, ID_REQUISITOS) 
+                                                    VALUES ((SELECT ID_FORMATO FROM FORMATO f WHERE f.NOMBRE = '${nombre_formato}'),
+                                                    (SELECT ID_REQUISITOS FROM REQUISITOS r WHERE r.NOMBRE = '${nombre_requisito}'))`
+                                                ),3000);
                 }
                 
-
-                //formato_requisitos(nombre_formato,nombre_requisito)
+/*
                 setTimeout(()=> service.connect(`INSERT INTO FORMATO_REQUISITOS (ID_FORMATO, ID_REQUISITOS) 
                                                 VALUES ((SELECT ID_FORMATO FROM FORMATO f WHERE f.NOMBRE = '${nombre_formato}'),
                                                 (SELECT ID_REQUISITOS FROM REQUISITOS r WHERE r.NOMBRE = '${nombre_requisito}'))`
                                             ),3000);
+*/
+
+                let revisarequisito = formato_requisito_repetidos.find(rev => rev.nombre_requisito[0] == nombre_requisito)
+                if( revisarequisito === undefined ){ //no existe el requisito
+
+                    formato_requisito_repetidos.push({nombre_requisito,nombre_formato})
+                    setTimeout(()=> service.connect(`INSERT INTO FORMATO_REQUISITOS (ID_FORMATO, ID_REQUISITOS) 
+                                                    VALUES ((SELECT ID_FORMATO FROM FORMATO f WHERE f.NOMBRE = '${nombre_formato}'),
+                                                    (SELECT ID_REQUISITOS FROM REQUISITOS r WHERE r.NOMBRE = '${nombre_requisito}'))`
+                                                ),3000);
+
+
+                }else{//existe el requisito
+
+                    let revisaformato = formato_requisito_repetidos.find(ff => ff.nombre_formato[0] == nombre_formato)
+                    if(revisaformato === undefined){//existe el requisito pero no el formato
+
+                        formato_requisito_repetidos.push({nombre_requisito,nombre_formato})    
+                        setTimeout(()=> service.connect(`INSERT INTO FORMATO_REQUISITOS (ID_FORMATO, ID_REQUISITOS) 
+                                                        VALUES ((SELECT ID_FORMATO FROM FORMATO f WHERE f.NOMBRE = '${nombre_formato}'),
+                                                        (SELECT ID_REQUISITOS FROM REQUISITOS r WHERE r.NOMBRE = '${nombre_requisito}'))`
+                                                    ),3000);
+                    }
+
+
+                }
+
 
             }else{
                 break

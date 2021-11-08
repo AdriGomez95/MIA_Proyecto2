@@ -31,10 +31,12 @@ var corsOptions = { origin: true, optionsSuccessStatus: 200 };
 
 const cors = require("cors");
 var usuarios = require("./routes/usuarios");
+var carga = require("./routes/cargaMS");
 
 
 app.use(cors(corsOptions));
 app.use("/usuarios", usuarios);
+app.use("/cargaMS", carga);
 
 
 app.listen(9000, () => {
@@ -105,7 +107,6 @@ var documentos = [{id:1,id_usuario:1,nombre:'CV',estado:'pendiente',motivo:'-',l
 app.get('/documentos', (req,res)=>{
   res.send(documentos)
 })
-
 
 
 

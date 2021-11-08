@@ -7,7 +7,7 @@ var connAttrs = {
 };
 
 async function connect(consulta) {
-  console.log(consulta);
+  //console.log(consulta);
   let conn;
 
   try {
@@ -19,8 +19,8 @@ async function connect(consulta) {
         outFormat: oracledb.OBJECT,
       }
     );
-
-    console.log(result.rows);
+      conn.commit()
+    //console.log(result.rows);
     return {"status":200,"data":result.rows};
   } catch (error) {
       return {"status":400,"message":error.message}

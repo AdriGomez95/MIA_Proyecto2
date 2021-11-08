@@ -45,7 +45,7 @@ const CargaMasiva = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/CMS", requesOptions)
+        fetch("http://localhost:9000/cargaMS/CMS", requesOptions)
 
         setTexto('')
         setCarga({})

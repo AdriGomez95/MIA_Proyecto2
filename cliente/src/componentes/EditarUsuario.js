@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { Form,Row,Col,Button,Container} from 'react-bootstrap';
 
 
 
 const EditarUsuario = () => {
     const [departamento, setDepartamento] = useState([])
+
 
     useEffect(() => {
         var formdata = new FormData();
@@ -14,7 +15,7 @@ const EditarUsuario = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/departamentos", requestOptions)
+        fetch("http://localhost:9000/Departamentos/departamentos", requestOptions)
         .then(response => response.json())
         .then(result => setDepartamento(result))
         .catch(error => console.log('error', error));
@@ -23,6 +24,53 @@ const EditarUsuario = () => {
 
 
 
+
+
+
+    //referencias para jalar los datos del usuario
+    const nombre = useRef()     //nombre del usuario
+    const pass = useRef()       //password del usuario
+    const rol1 = useRef()        //rol del usuario
+    //const de1 = useRef()       //departamento del usuario
+
+    //metodo para mandar con el backend
+    const ModificaUsuario = async () => {
+        let usuario = nombre.current.value
+        let contrasenia = pass.current.value
+        let rol = rol1.current.value
+        //let de2 = de1.current.value
+        let emp = {
+                    usuario: usuario,
+                    contrasenia: contrasenia,
+                    rol: rol,
+                    //departamento: de2
+                }
+        //console.log("usuario: " + usuario)
+        //console.log("password: " + contrasenia)
+        //console.log("rol: " + rol)
+        //console.log("departamento: " + de2)
+        //console.log(emp)
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "empleado": emp
+        });
+
+        var requesOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/usuarios/modificar_empleado", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+    }
 
 
 
@@ -42,7 +90,7 @@ const EditarUsuario = () => {
                     Usuario
                     </Form.Label>
                     <Col>
-                    <Form.Control type="text" placeholder="Normal text" />
+                    <Form.Control type="text" placeholder="Normal text"  ref={nombre} />
                     </Col>
                     <Col>
                     </Col>
@@ -52,7 +100,7 @@ const EditarUsuario = () => {
                     Password
                     </Form.Label>
                     <Col>
-                    <Form.Control type="password" placeholder="Password" />
+                    <Form.Control type="password" placeholder="Password"  ref={pass}/>
                     </Col>
                     <Col>
                     </Col>
@@ -63,28 +111,12 @@ const EditarUsuario = () => {
                     </Form.Label>
                     <Col>
                     <Form.Group controlId="formGridState">
-                        <Form.Select defaultValue="Choose...">
+                        <Form.Select defaultValue="Choose..." ref={rol1}>
                             <option>...</option>
-                            <option>Coordinador de departamento</option>
-                            <option>Revisor de expediente</option>
-                        </Form.Select>
-                    </Form.Group>
-                    </Col>
-                    <Col>
-                    </Col>
-                </Row>
-                <Row>
-                    <Form.Label column lg={2}>
-                    departamento
-                    </Form.Label>
-                    <Col>
-                    <Form.Group controlId="formGridState">
-                        <Form.Select defaultValue="Choose...">
-                            {
-                                departamento.map((option,index) => {
-                                    return (<option key={index} value={option}>{option}</option>)
-                                })
-                            }
+                            <option value='administrador'>Administrador</option>
+                            <option value='coordinador'>Coordinador de departamento</option>
+                            <option value='revisor'>Revisor de expediente</option>
+                            
                         </Form.Select>
                     </Form.Group>
                     </Col>
@@ -96,7 +128,7 @@ const EditarUsuario = () => {
 
             </Container>
             <br/><br/>
-            <Button  href='/' variant="outline-info" size="lg">
+            <Button  onClick={ModificaUsuario} variant="outline-info" size="lg">
                 editar usuario
             </Button>           
             

@@ -32,11 +32,15 @@ var corsOptions = { origin: true, optionsSuccessStatus: 200 };
 const cors = require("cors");
 var usuarios = require("./routes/usuarios");
 var carga = require("./routes/cargaMS");
+var listadoPuestos = require("./routes/ListadoPuestos");
+var departamentos = require("./routes/Departamentos");
 
 
 app.use(cors(corsOptions));
 app.use("/usuarios", usuarios);
 app.use("/cargaMS", carga);
+app.use("/ListadoPuestos", listadoPuestos);
+app.use("/Departamentos", departamentos);
 
 
 app.listen(9000, () => {
@@ -50,11 +54,11 @@ app.listen(9000, () => {
 
 //################## MANEJO DE ROLES DE USUARIO ##################
 //(admin, coordinador, reclutador, aplicante, undefined que es guest)
-var usuario_logueado = {user: "Adri", rol: "admin"};
+//var usuario_logueado = {user: "Adri", rol: "admin"};
 //var usuario_logueado = {user: "Adri", rol: "coordinador"};
 //var usuario_logueado = {user: "Adri", rol: "reclutador"};
 //var usuario_logueado = {user: "Adri", rol: "aplicante"};
-//var usuario_logueado;
+var usuario_logueado;
 
 app.get('/usuario_logueado', (req,res)=>{
   res.send(usuario_logueado)
@@ -66,13 +70,6 @@ app.get('/limpiar_logueo', (req,res)=>{
 })
 
 
-//################## MANEJO DE DEPARTAMENTOS ##################
-var departamentos = ['1','2','3'];
-
-app.get('/departamentos', (req,res)=>{
-  res.send(departamentos)
-})
-
 
 //################## MANEJO DE EMPLEADOS ##################
 var empleados = [{usuario:'Adri', password:'123', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'admin', departamento:'Logistica'},{usuario:'hhhhh', password:'hhh', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'hhhh', departamento:'hhhh'}]
@@ -81,13 +78,6 @@ app.get('/listado_empleados', (req,res)=>{
   res.send(empleados)
 })
 
-
-//################## MANEJO DE PUESTOS ##################
-var puestos = [{puesto:'Developer', salario:'Q7000', categoria:'categoria 1', departamento:'departamento 1'},{puesto:'Secretaria', salario:'Q7000', categoria:'categoria 2', departamento:'departamento 2'},{puesto:'Maestra', salario:'Q7000', categoria:'categoria 3', departamento:'departamento 3'}]
-
-app.get('/listado_puestos', (req,res)=>{
-  res.send(puestos)
-})
 
 
 //################## MANEJO DE APLICANTES ##################
@@ -117,177 +107,6 @@ app.get('/documentos', (req,res)=>{
 
 
 
-//################## MANEJO DE CARGA MASIVA ##################
-app.use(express.urlencoded({extended:true}))
-app.use(express.json())
-
-app.post('/CMS', (req,res)=>{
-  const data = req.body.datosDeCarga
-  console.log("hola :)")
-  console.log(data)
-  aqui(data)
-  console.log("adios :)")
-})
-
-
-const aqui = (objeto)=>{
-  //console.log("********* objetos ********* ")
-  aqui2(objeto.departamentos)
-}
-
-const aqui2 = (array) =>{
-  console.log("********* arrays ********* ")
-  for(let i=0; i<=50; i++){
-      if(array.departamento[i]!==undefined){
-          console.log(array.departamento)
-          departamentoDatos(array.departamento)
-      }
-      else
-      {
-          //console.log("Se terminaron")
-          break
-      }
-  }  
-}
-
-const departamentoDatos = (objeto) => {
-  console.log(">>>>>>>>>> Datos del departamento >>>>>>>>>> ")
-  for(let i=0; i<=50; i++){
-      if(objeto[i]!==undefined){
-
-          console.log("Nombre: " + objeto[i].nombre)
-          console.log("Capital: " + objeto[i].capital_total)
-          puestosss(objeto[i].puestos)
-          if(objeto[i].departamentos!==undefined){
-              dep(objeto[i].departamentos)
-
-          }else{
-
-          }
-
-      }else{
-          console.log("ya no hay departamentos")
-          break
-      }
-  }
-}
-
-
-const dep = (array) => {
-  //console.log(">>>>>>>>>> Datos del departamento >>>>>>>>>> ")
-  for(let i=0; i<=50; i++){
-      if(array[i]!==undefined){
-          departamentoDatos(array[i].departamento)
-      }else{
-          //console.log("yaaaaaaaaaaaaaaaaaaaaa")
-          break
-      }
-  }            
-}
-
-const puestosss = (array) => {
-  //console.log(">>>>>>>>>> Datos del puesto >>>>>>>>>> ")
-  for(let i=0; i<=50; i++){
-      if(array[i]!==undefined){
-          puestoDatos(array[i].puesto)
-      }else{
-          console.log("ya no hay puestos")
-          break
-      }
-  }        
-}
-
-
-const puestoDatos = (objeto) => {
-  for(let i=0; i<=50; i++){
-      if(objeto[i]!==undefined){          
-          console.log("Puesto: " + objeto[i].nombre)
-          console.log("Puesto salario: " + objeto[i].salario)
-          requisitos(objeto[i].requisitos)
-          categorias(objeto[i].categorias)
-      }else{
-          break
-      }
-  }
-}
-
-
-
-
-
-
-const requisitos = (array) => {
-  //console.log(">>>>>>>>>> Datos del requisito >>>>>>>>>> ")
-  for(let i=0; i<=50; i++){
-      if(array[i]!==undefined){
-          requisitoDatos(array[i].requisito)
-      }else{
-          console.log("ya no hay requisitos")
-          break
-      }
-  }        
-}
-
-const requisitoDatos = (objeto) => {
-  //console.log(">>>>>>>>>> Tipos del requisito >>>>>>>>>> ")
-  for(let i=0; i<=50; i++){
-      if(objeto[i]!==undefined){
-          console.log("Requisito nombre: " + objeto[i].nombre)
-          console.log("Requisito obligatorio: " + objeto[i].obligatorio)
-          console.log("Requisito tamanio: " + objeto[i].tamaño)
-
-          formatos(objeto[i].formatos)
-      }else{
-          break
-      }
-  }   
-}
-
-const formatos = (array) => {
-//console.log(">>>>>>>>>> Datos del requisito >>>>>>>>>> ")
-for(let i=0; i<=50; i++){
-    if(array[i]!==undefined){
-        formatoDatos(array[i].formato)
-    }else{
-        console.log("ya no hay formatos para este requisito")
-        break
-    }
-}        
-}
-
-const formatoDatos = (objeto) => {
-//console.log(">>>>>>>>>> Tipos del formato >>>>>>>>>> ")
-for(let i=0; i<=50; i++){
-    if(objeto[i]!==undefined){
-        console.log("Formato nombre: " + objeto[i].nombre)
-    }else{
-        break
-    }
-}   
-}
-
-const categorias = (array) => {
-//console.log(">>>>>>>>>> Datos de las categorias >>>>>>>>>> ")
-for(let i=0; i<=50; i++){
-    if(array[i]!==undefined){
-        categoriaDatos(array[i].categoria)
-    }else{
-        console.log("ya no hay categorias para este puesto")
-        break
-    }
-}        
-}
-
-const categoriaDatos = (objeto) => {
-//console.log(">>>>>>>>>> Tipos de categorias >>>>>>>>>> ")
-for(let i=0; i<=50; i++){
-    if(objeto[i]!==undefined){
-        console.log("Categoria nombre: " + objeto[i].nombre)
-    }else{
-        break
-    }
-}   
-}
 
 
 

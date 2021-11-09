@@ -1,7 +1,7 @@
 import xml2js from 'xml2js';
 import React from 'react';
 
-
+//ESTA FUE SOLO PARA PRUEBAS, NO TIENE FUNCIONALIDAD EN EL PROYECTO
 
 function Pruebita() {
 

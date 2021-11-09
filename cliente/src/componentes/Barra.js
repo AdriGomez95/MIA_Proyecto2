@@ -151,6 +151,7 @@ const Barra = () => {
                                 <Nav.Link href="/">principal</Nav.Link>
                                 <Nav.Link href='/login'>iniciar sesion</Nav.Link>
                                 <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
+                                <Nav.Link href='/calificar_puesto'>calificar puesto</Nav.Link>
                             </Nav>
                         </Container>
                     </Navbar>
@@ -177,6 +178,7 @@ const Barra = () => {
                             <Nav.Link href="/">principal</Nav.Link>
                             <Nav.Link href='/login'>iniciar sesion</Nav.Link>
                             <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
+                            <Nav.Link href='/calificar_puesto'>calificar puesto</Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>

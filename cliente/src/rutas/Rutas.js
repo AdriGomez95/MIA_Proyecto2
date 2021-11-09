@@ -16,6 +16,9 @@ import RevisarAplicantes from '../paginas/RevisarAplicantes'
 
 import CargaMasiva from '../componentes/CargaMasiva'
 
+
+import CalificarPuesto from '../paginas/CalificarPuesto'
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -49,6 +52,8 @@ const Rutas = () => {
                 <Route exact path='/revisar_documentos' component={()=> <RevisarDocumentos/>}>
                 </Route>
                 <Route exact path='/revisar_aplicantes' component={()=> <RevisarAplicantes/>}>
+                </Route>
+                <Route exact path='/calificar_puesto' component={()=> <CalificarPuesto/>}>
                 </Route>
             </Switch>
         </Router>

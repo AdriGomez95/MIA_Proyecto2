@@ -7,9 +7,10 @@ import xmljs from 'xml2js';
 
 
 const CargaMasiva = () => {
-    const [texto, setTexto] = useState('')
+    let [texto, setTexto] = useState('')
     const [carga, setCarga] = useState({})
     let fileReader;
+
 
     const findFile = (evento) => {
         var lectura = evento.target.files[0];
@@ -25,6 +26,7 @@ const CargaMasiva = () => {
             const json = JSON.stringify(res,null,4);
             const tojson = JSON.parse(json);
             setCarga(tojson);
+            texto = tojson;
         });
 
     }
@@ -82,7 +84,7 @@ const CargaMasiva = () => {
                 <br/> <br/> <br/>
                 <h2>Informacion del archivo convertido a json</h2>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">   
-                <Form.Control as="textarea" rows={3} placeholder='aqui el contenido'/> </Form.Group>
+                <Form.Control as="textarea" rows={3} placeholder={texto}/> </Form.Group>
             </Form>
 
       

@@ -37,6 +37,12 @@ const VerUsuarios = () => {
             width: 150,
             },
             {
+            label: 'Estado',
+            field: 'estado',
+            sort: 'disabled',
+            width: 150,
+            },
+            {
             label: 'Rol',
             field: 'rol',
             width: 270,
@@ -56,7 +62,7 @@ const VerUsuarios = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/listado_empleados", requestOptions)
+        fetch("http://localhost:9000/usuarios/listado_empleados", requestOptions)
         .then(response => response.json())
         .then(result => setDatatable({columns:columns,rows:result}))
         .catch(error => console.log('error', error));

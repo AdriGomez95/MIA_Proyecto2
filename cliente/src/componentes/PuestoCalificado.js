@@ -2,7 +2,8 @@ import React, {useState,useEffect} from 'react';
 import { MDBDataTableV5 } from 'mdbreact';
 
 
-const FiltraPlazas = () => {
+
+const PuestoCalificado = () => {
     const [datatable, setDatatable] = useState({});
 
     
@@ -19,18 +20,8 @@ const FiltraPlazas = () => {
             },
             },
             {
-            label: 'Salario',
-            field: 'salario',
-            width: 200,
-            },
-            {
-            label: 'Categoria',
-            field: 'categoria',
-            width: 200,
-            },
-            {
-            label: 'Departamento',
-            field: 'departamento',
+            label: 'Calificacion',
+            field: 'calificacion',
             width: 200,
             }
         ]
@@ -42,16 +33,20 @@ const FiltraPlazas = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/ListadoPuestos/listado_puestos", requestOptions)
+        fetch("http://localhost:9000/ListadoPuestos/puestos_calificados", requestOptions)
         .then(response => response.json())
         .then(result => setDatatable({columns:columns,rows:result}))
         .catch(error => console.log('error', error));
 
     },[])
+
+
+
+
     return (
         <div>
             <br/><br/>
-            <h1 className="h1">Listado de plazas</h1>                    
+            <h1 className="h1">Plazas/puestos calificados</h1>                    
             <br/><br/>
 
           
@@ -66,5 +61,4 @@ const FiltraPlazas = () => {
 }
 
 
-
-export default FiltraPlazas
+export default PuestoCalificado

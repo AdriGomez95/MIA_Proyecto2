@@ -35,7 +35,7 @@ router.get('/limpiar_logueo', async (req,res)=>{
 
 
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   //usuario_logueado = undefined;
   const usu = req.body.usuario;
   //console.log("entro")
@@ -88,7 +88,7 @@ router.get('/planicoordinador', async (req,res)=>{
   res.send(planilla)
 })
 
-router.put("/modificar_planicoor", async (req, res) => {
+router.put('/modificar_planicoor', async (req, res) => {
   const apli = req.body.aplic;
   let retorno = false
 
@@ -101,7 +101,7 @@ router.put("/modificar_planicoor", async (req, res) => {
 
 })
 
-router.put("/modificar_planicoor2", async (req, res) => {
+router.put('/modificar_planicoor2', async (req, res) => {
   const apli = req.body.aplic;
   let retorno = false
 
@@ -114,7 +114,7 @@ router.put("/modificar_planicoor2", async (req, res) => {
 
 })
 
-router.put("/modificar_planicoor3", async (req, res) => {
+router.put('/modificar_planicoor3', async (req, res) => {
   const apli = req.body.aplic;
   let retorno = false
 
@@ -136,12 +136,12 @@ var aplicantes = []
 router.get('/aplicantes', async (req,res)=>{
   aplicantes.splice(0,aplicantes.length)
     await service.connect(`
-                          SELECT u.NOMBRE, u.APELLIDO, u.DPI, p2.NOMBRE, p2.SALARIO, p.ESTADO FROM PLANILLA p 
+                          SELECT u.NOMBRE, u.APELLIDO, u.CONTRASENIA, u.DPI, p2.NOMBRE, p2.SALARIO, p.ESTADO FROM PLANILLA p 
                           INNER JOIN PUESTO p2 ON p.ID_PUESTO = p2.ID_PUESTO 
                           INNER JOIN USUARIO u ON p.ID_USUARIO = u.ID_USUARIO 
                         `).then(filas=>{
                           filas.data.forEach(element => {
-                            aplicantes.push({nombre:element.NOMBRE,apellido:element.APELLIDO,dpi:element.DPI, puesto:element.NOMBRE_1, salario:element.SALARIO,estado:element.ESTADO})
+                            aplicantes.push({nombre:element.NOMBRE,apellido:element.APELLIDO,pass:element.CONTRASENIA,dpi:element.DPI, puesto:element.NOMBRE_1, salario:element.SALARIO,estado:element.ESTADO})
                               //console.log(element)
                         })
                     })
@@ -150,7 +150,7 @@ router.get('/aplicantes', async (req,res)=>{
 })
 
 
-router.put("/modificar_planillaAplicante", async (req, res) => {
+router.put('/modificar_planillaAplicante', async (req, res) => {
   const apli = req.body.aplic;
   let retorno = false
 
@@ -163,7 +163,7 @@ router.put("/modificar_planillaAplicante", async (req, res) => {
 
 })
 
-router.put("/modificar_planillaAplicante2", async (req, res) => {
+router.put('/modificar_planillaAplicante2', async (req, res) => {
   const apli = req.body.aplic;
   let retorno = false
 
@@ -178,10 +178,14 @@ router.put("/modificar_planillaAplicante2", async (req, res) => {
 
 
 
-router.post("/envia_email", async(req,res)=>{
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+//APLICANTE ACEPTADO PARA LOGUEO
+router.post("/envia_emailAplicante", async(req,res)=>{
+  const apli = req.body.aplic;
+  let usu = apli.usuario;
+  let pass = apli.contrasenia;
 
-  console.log("entro a mensajes")
-  let retorno = false
+  let retorno = false;
   let transporter = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
     port: 587,
@@ -193,21 +197,68 @@ router.post("/envia_email", async(req,res)=>{
   });
 
   // send mail with defined transport object
-  return transporter.sendMail({
+   let info = await transporter.sendMail({
+    from: '"mensaje prueba!!" <foo@example.com>', // sender address
+    to: "bar@example.com", // list of receivers
+    subject: "Credenciales de aplicante", // Subject line
+    text: "sus credenciales son -> usuario: "+usu+" contrasenia: "+pass, // plain text body
+  });
+  res.send(retorno)
+})
+
+//COORDINADOR ACEPTA A UN APLICANTE PARA TRABAJAR
+router.post("/envia_emailCoordinador", async(req,res)=>{
+  const apli = req.body.aplic;
+  let usu = apli.usuario;
+  let puesto = apli.puesto;
+  let salario = apli.salario;
+
+  let retorno = false;
+  let transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "bc686dc6a8d146", // generated ethereal user
+      pass: "9129a1654d4498" // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+   let info = await transporter.sendMail({
+    from: '"mensaje prueba!!" <foo@example.com>', // sender address
+    to: "bar@example.com", // list of receivers
+    subject: "Contratado para un puesto", // Subject line
+    text: "¡Felicidades, ha sido aceptado para el siguiente puesto! -> usuario: "+usu+" puesto: "+puesto+" con un salario de: "+salario, // plain text body
+  });
+  res.send(retorno)
+})
+/*
+router.post("/envia_email", async(req,res)=>{
+
+  console.log("entro a mensajes")
+  let retorno = false;
+  let transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "bc686dc6a8d146", // generated ethereal user
+      pass: "9129a1654d4498" // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+   let info = await transporter.sendMail({
     from: '"mensaje prueba!!" <foo@example.com>', // sender address
     to: "bar@example.com", // list of receivers
     subject: "enviado desde la aplicacion", // Subject line
     text: "adios mundo", // plain text body
-  }, (err,info)=>{
-      if(err) res.status(200).send({success:false, error: err});
-      
-      return res.status(200).send({
-          success: true,
-          message: 'email enviado'
-      });
   });
+  console.log("Message sent: %s", info.messageId);
+  res.send(retorno)
 })
- 
+ */
 
 
 //############################ TODO LO DE USUARIOS/APLICANTES ###########################

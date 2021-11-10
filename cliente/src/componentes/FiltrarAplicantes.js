@@ -26,6 +26,11 @@ const FiltrarAplicantes = () => {
             width: 200,
             },
             {
+            label: 'Password',
+            field: 'pass',
+            width: 200,
+            },
+            {
             label: 'DPI',
             field: 'dpi',
             width: 200,
@@ -108,15 +113,20 @@ const FiltrarAplicantes = () => {
         .catch(error => console.log('error', error));
 
         alert(datatable.nombre + ' ahora esta contratado!');
-        //mensajin(datatable);
+        mensajin(datatable);
     }
 
     const mensajin = (datatable) =>{
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        
+
+        let aplic = {
+            usuario: datatable.nombre,
+            contrasenia: datatable.pass
+        }
+        console.log(aplic)
         var a = JSON.stringify({
-            "aplic": datatable
+            "aplic": aplic
         });
 
         var requesOptions = {
@@ -126,12 +136,12 @@ const FiltrarAplicantes = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/envia_email", requesOptions)
+        fetch("http://localhost:9000/usuarios/envia_emailAplicante", requesOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
-        alert(datatable.nombre + ' mensaje enviado :)');
+        alert(' mensaje enviado :)');
 
     }
 

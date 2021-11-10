@@ -18,6 +18,7 @@ import CargaMasiva from '../componentes/CargaMasiva'
 
 
 import CalificarPuesto from '../paginas/CalificarPuesto'
+import EnviaCorreo from '../componentes/EnviaCorreo'
 
 import {
     BrowserRouter as Router,
@@ -54,6 +55,8 @@ const Rutas = () => {
                 <Route exact path='/revisar_aplicantes' component={()=> <RevisarAplicantes/>}>
                 </Route>
                 <Route exact path='/calificar_puesto' component={()=> <CalificarPuesto/>}>
+                </Route>
+                <Route exact path='/envia_correo' component={()=> <EnviaCorreo/>}>
                 </Route>
             </Switch>
         </Router>

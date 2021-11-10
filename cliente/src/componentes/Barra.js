@@ -180,6 +180,8 @@ const Barra = () => {
                             <Nav.Link href='/login'>iniciar sesion</Nav.Link>
                             <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
                             <Nav.Link href='/calificar_puesto'>calificar puesto</Nav.Link>
+                            <Nav.Link href='/envia_correo'>enviar correo</Nav.Link>
+                            
                         </Nav>
                     </Container>
                 </Navbar>

@@ -1,47 +1,45 @@
-//import React, {useEffect, useState} from 'react';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import { Form,Row,Col,Button, Accordion,Spinner,Container} from 'react-bootstrap';
-/*
-const state = {
-  color: '',
-  id_prueba: '',
-  entrada: false,
-  tipoUsuario: 0,
-};
-*/
+
+
+
 const Login = () => {
 
-  //const [usuario_logueado, setUsuario_logueado] = useState(undefined)
 
-/*
-  const ConsultaUsuario = () =>{
+  //referencias para jalar los datos del usuario
+  const nombre = useRef()        //nombre del usuario
+  const contrasenia = useRef()    //contrasenia del usuario
 
-    var raw = JSON.stringify({
-      "color": "azul",
-      "id_prueba": "3"
+  const Logear = async () => {
+    let usuario1 = nombre.current.value
+    let contrasenia1 = contrasenia.current.value
+    let usu = {
+                usuario: usuario1,
+                contrasenia: contrasenia1
+            }
+    console.log("usuario: " + usuario1)
+    console.log("contrasenia: " + contrasenia1)
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    var a = JSON.stringify({
+        "usuario": usu
     });
 
-    var consultilla={
-      "color": this.state.color,
-      "id_prueba": this.state.color
-    }
-    
-    var formdata = new FormData();
-    var requestOptions = {
-      method: 'POST',
-      body: JSON.stringify(),
-      redirect: 'follow'
+    var requesOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: a,
+        redirect: 'follow'
     };
 
-    fetch("http://localhost:9000/usuarios/login", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-      console.console.log(requestOptions);
+    fetch("http://localhost:9000/usuarios/login", requesOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
 
   }
-*/
-
 
     return (
         <div class="p-5 mb-2 bg-info text-dark">
@@ -68,7 +66,7 @@ const Login = () => {
                       Usuario
                     </Form.Label>
                     <Col sm={10}>
-                      <Form.Control type="email" placeholder="Usuario" />
+                      <Form.Control type="email" placeholder="Usuario" ref={nombre}  />
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
@@ -76,7 +74,7 @@ const Login = () => {
                       Password
                     </Form.Label>
                     <Col sm={10}>
-                      <Form.Control type="password" placeholder="Password" />
+                      <Form.Control type="password" placeholder="Password" ref={contrasenia}  />
                     </Col>
                   </Form.Group>
                 </Form>
@@ -104,7 +102,7 @@ const Login = () => {
 
             <Row>
               <div className="d-grid gap-2">
-                <Button variant="outline-primary" size="lg" >{/*onClick={ConsultaUsuario}>*/}
+                <Button  onClick={Logear} variant="outline-primary" size="lg" >
                   iniciar
                 </Button>
                 <Button variant="outline-secondary" size="lg" href='/'>

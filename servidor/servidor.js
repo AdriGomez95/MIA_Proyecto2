@@ -34,6 +34,7 @@ var usuarios = require("./routes/usuarios");
 var carga = require("./routes/cargaMS");
 var listadoPuestos = require("./routes/ListadoPuestos");
 var departamentos = require("./routes/Departamentos");
+var documentos = require("./routes/Documentos");
 
 
 app.use(cors(corsOptions));
@@ -41,6 +42,7 @@ app.use("/usuarios", usuarios);
 app.use("/cargaMS", carga);
 app.use("/ListadoPuestos", listadoPuestos);
 app.use("/Departamentos", departamentos);
+app.use("/Documentos", documentos);
 
 
 app.listen(9000, () => {
@@ -56,9 +58,9 @@ app.listen(9000, () => {
 //(admin, coordinador, reclutador, aplicante, undefined que es guest)
 //var usuario_logueado = {user: "Adri", rol: "admin"};
 //var usuario_logueado = {user: "Adri", rol: "coordinador"};
-//var usuario_logueado = {user: "Adri", rol: "reclutador"};
+var usuario_logueado = {user: "Adri", rol: "reclutador"};
 //var usuario_logueado = {user: "Adri", rol: "aplicante"};
-var usuario_logueado;
+//var usuario_logueado;
 
 app.get('/usuario_logueado', (req,res)=>{
   res.send(usuario_logueado)
@@ -71,12 +73,6 @@ app.get('/limpiar_logueo', (req,res)=>{
 
 
 
-//################## MANEJO DE EMPLEADOS ##################
-var empleados = [{usuario:'Adri', password:'123', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'admin', departamento:'Logistica'},{usuario:'hhhhh', password:'hhh', fecha_inicio:'29/10/2021', fecha_fin:'-', rol:'hhhh', departamento:'hhhh'}]
-
-app.get('/listado_empleados', (req,res)=>{
-  res.send(empleados)
-})
 
 
 

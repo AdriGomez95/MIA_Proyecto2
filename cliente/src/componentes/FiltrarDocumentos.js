@@ -60,7 +60,7 @@ const FiltrarDocumentos = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/documentos", requestOptions)
+        fetch("http://localhost:9000/Documentos/documentos", requestOptions)
         .then(response => response.json())
         .then(result => {
                     var filas = result.map((e)=>{
@@ -85,11 +85,59 @@ const FiltrarDocumentos = () => {
     },[])
 
     const contratado = (datatable) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "docs": datatable
+        });
+
+        var requesOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/Documentos/modificar_estadoDoc", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
         alert('El documento ' + datatable.nombre + ' ha sido aceptado');
     }
+
+
+
+
     const rechazado = (datatable) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "docs": datatable
+        });
+
+        var requesOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/Documentos/modificar_estadoDocrechazado", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
         alert('El documento ' + datatable.nombre + ' ha sido rechazado');
     }
+
+
+
+
     const descargar = (datatable) => {
         alert('Se ha descargado con exito el documento ' + datatable.nombre );
     }

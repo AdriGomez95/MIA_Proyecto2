@@ -105,10 +105,11 @@ router.get('/puestitoscalif', async (req,res)=>{
     pcc.splice(0,pcc.length)
     pcc.push('...')
     await service.connect(`
-                            SELECT * FROM CALIFICACION_PUESTOS 
+                            SELECT NOMBRE FROM PUESTO
                         `).then(filas=>{
                             filas.data.forEach(element => {
-                                pcc.push(element.PUESTO)
+                                //console.log(element)
+                                pcc.push(element.NOMBRE)
                                 
                             })
                         })

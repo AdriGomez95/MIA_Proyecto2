@@ -11,6 +11,8 @@ router.use(cors({ origin: true, optionsSuccessStatus: 200 }));
 router.use(bodyParser.json({ limit: "50mb", extended: true }));
 router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';//para mandar mensajes
+
 
 
 //################## MANEJO DE ROLES DE USUARIO ##################
@@ -130,6 +132,27 @@ router.put('/modificar_planicoor3', async (req, res) => {
 
 
 
+
+
+
+
+
+//expedientes+++++++++++++++++++++++++++++++++++++++++++++++
+var expi = []
+router.get('/expedientes', async (req,res)=>{
+  expi.splice(0,expi.length)
+    await service.connect(`
+                          SELECT u.NOMBRE, u.APELLIDO, u.CONTRASENIA, u.DPI, u.CORREO, u.DIRECCION, u.TELEFONO
+                          FROM USUARIO u
+                        `).then(filas=>{
+                          filas.data.forEach(element => {
+                            expi.push({nombre:element.NOMBRE,apellido:element.APELLIDO,pass:element.CONTRASENIA,dpi:element.DPI,correo:element.CORREO, direccion:element.DIRECCION,telefono:element.TELEFONO})
+                              //console.log(element)
+                        })
+                    })
+                    
+    res.send(expi)
+})
 //%%%%%%%%%%%% filtra aplicantes
 //var aplicantes = [{id:1,nombre:'aplicante 1',apellido:'aplicante 1',dpi:1,puesto:'puesto',salario:'Q5000',estado:'aceptado'},{id:2,nombre:'aplicante 2',apellido:'aplicante 2',dpi:2,puesto:'puesto 2',salario:'Q8000',estado:'pendiente'}]
 var aplicantes = []
@@ -178,7 +201,84 @@ router.put('/modificar_planillaAplicante2', async (req, res) => {
 
 
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+//PARA RECLUTADOR ACEPTAR EXPEDIENTE
+router.post("/mensaje_aceptaExpediente", async(req,res)=>{
+  const apli = req.body.aplic;
+  let usu = apli.usuario;
+  let apellido = apli.apellido;
+  let pass = apli.pass;
+  let dpi = apli.dpi;
+  let correo = apli.correo;
+  let direccion = apli.direccion;
+  let telefono = apli.telefono;
+
+  let retorno = false;
+  let transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "bc686dc6a8d146", // generated ethereal user
+      pass: "9129a1654d4498" // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+   let info = await transporter.sendMail({
+    from: '"mensaje prueba!!" <foo@example.com>', // sender address
+    to: "bar@example.com", // list of receivers
+    subject: "Expediente aceptado", // Subject line
+    text: "Felicidades, su expediente ha sido aceptado: \n"
+    +"nombres: "+usu+"\n"
+    +"apellidos: "+apellido+"\n"
+    +"contrasenia: "+pass+"\n"
+    +"DPI: "+dpi+"\n"
+    +"correo: "+correo+"\n"
+    +"direccion: "+direccion+"\n"
+    +"telefono: "+telefono+"\n", // plain text body
+  });
+  res.send(retorno)
+})
+//PARA RECLUTADOR RECHAZAR EXPEDIENTE
+router.post("/mensaje_rechazaExpediente", async(req,res)=>{
+  const apli = req.body.aplic;
+  let usu = apli.usuario;
+  let apellido = apli.apellido;
+  let pass = apli.pass;
+  let dpi = apli.dpi;
+  let correo = apli.correo;
+  let direccion = apli.direccion;
+  let telefono = apli.telefono;
+
+  let retorno = false;
+  let transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "bc686dc6a8d146", // generated ethereal user
+      pass: "9129a1654d4498" // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+   let info = await transporter.sendMail({
+    from: '"mensaje prueba!!" <foo@example.com>', // sender address
+    to: "bar@example.com", // list of receivers
+    subject: "Expediente rechazado", // Subject line
+    text: "Su expediente ha sido rechazado, por favor, corregir: \n"
+    +"nombres: "+usu+"\n"
+    +"apellidos: "+apellido+"\n"
+    +"contrasenia: "+pass+"\n"
+    +"DPI: "+dpi+"\n"
+    +"correo: "+correo+"\n"
+    +"direccion: "+direccion+"\n"
+    +"telefono: "+telefono+"\n", // plain text body
+  });
+  res.send(retorno)
+})
+
 //APLICANTE ACEPTADO PARA LOGUEO
 router.post("/envia_emailAplicante", async(req,res)=>{
   const apli = req.body.aplic;
@@ -201,7 +301,9 @@ router.post("/envia_emailAplicante", async(req,res)=>{
     from: '"mensaje prueba!!" <foo@example.com>', // sender address
     to: "bar@example.com", // list of receivers
     subject: "Credenciales de aplicante", // Subject line
-    text: "sus credenciales son -> usuario: "+usu+" contrasenia: "+pass, // plain text body
+    text: "¡Bienvenido! use sus credenciales para poder loguearse: \n"
+    +" usuario: "+usu+"\n"
+    +" contrasenia: "+pass, // plain text body
   });
   res.send(retorno)
 })
@@ -229,7 +331,10 @@ router.post("/envia_emailCoordinador", async(req,res)=>{
     from: '"mensaje prueba!!" <foo@example.com>', // sender address
     to: "bar@example.com", // list of receivers
     subject: "Contratado para un puesto", // Subject line
-    text: "¡Felicidades, ha sido aceptado para el siguiente puesto! -> usuario: "+usu+" puesto: "+puesto+" con un salario de: "+salario, // plain text body
+    text: "¡Felicidades, ha sido aceptado para el siguiente puesto! \n"
+    +" usuario: "+usu+" \n"
+    +" puesto: "+puesto+" \n"
+    +" salario: "+salario, // plain text body
   });
   res.send(retorno)
 })

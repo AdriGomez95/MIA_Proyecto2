@@ -82,7 +82,7 @@ const Barra = () => {
                                 <h1>aplicante</h1>
                                 <Nav.Link href="/">principal</Nav.Link>
                                 <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
-                                <Nav.Link href="/calificar_puesto">calificar puesto</Nav.Link>
+                                <Nav.Link href="/ver_expe">ver/editar expediente</Nav.Link>
                                 <Nav.Link href="/mensaje">mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>
                             </Nav>
@@ -105,6 +105,7 @@ const Barra = () => {
                                 <Nav.Link href="/">principal</Nav.Link>
                                 <Nav.Link href="/revisar_aplicantes">aceptar/rechazar aplicantes</Nav.Link>
                                 <Nav.Link href="/revisar_documentos">aceptar/rechazar documentos</Nav.Link>
+                                <Nav.Link href='/filtra_expedientes'>ver expedientes</Nav.Link>
                                 <Nav.Link href="/mensaje">Mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>
                             </Nav>
@@ -180,7 +181,7 @@ const Barra = () => {
                             <Nav.Link href='/login'>iniciar sesion</Nav.Link>
                             <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
                             <Nav.Link href='/calificar_puesto'>calificar puesto</Nav.Link>
-                            <Nav.Link href='/envia_correo'>enviar correo</Nav.Link>
+                            
                             
                         </Nav>
                     </Container>

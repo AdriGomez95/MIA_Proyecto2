@@ -87,9 +87,13 @@ router.put("/modificar_estadoDoc", async (req, res) => {
   router.put("/modificar_estadoDocrechazado", async (req, res) => {
       const docs = req.body.docs;
       let retorno = false
+      let rechaz = docs.rechazos;
+      rechaz = rechaz + 1
+      console.log(rechaz)
     
       await service.connect(`
-                              UPDATE DOCUMENTO d SET d.ESTADO = 'rechazado' 
+                              UPDATE DOCUMENTO d SET d.ESTADO = 'rechazado', 
+                              d.RECHAZOS = '${rechaz}'
                               WHERE d.NOMBRE = '${docs.nombre}'
                           `).then(/*console.log*/)
       

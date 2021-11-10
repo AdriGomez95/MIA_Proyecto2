@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 
 
 
-const EnviaCorreo = () => {
+const FiltrarExpedientes = () => {
 
     const [datatable, setDatatable] = useState({});
 
@@ -42,22 +42,22 @@ const EnviaCorreo = () => {
             width: 200,
             },
             {
-            label: 'Salario',
-            field: 'salario',
+            label: 'Direccion',
+            field: 'direccion',
             width: 200,
             },
             {
-            label: 'Estado',
-            field: 'estado',
+            label: 'Telefono',
+            field: 'telefono',
             width: 200,
             },
             {
-            label: 'Aceptar',
+            label: 'Aceptar expediente',
             field: 'aceptar',
             width: 200,
             },
             {
-            label: 'Rechazar',
+            label: 'Rechazar expediente',
             field: 'rechazar',
             width: 200,
             }
@@ -70,12 +70,12 @@ const EnviaCorreo = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/aplicantes", requestOptions)
+        fetch("http://localhost:9000/usuarios/expedientes", requestOptions)
         .then(response => response.json())
         .then(result => {
                     var filas = result.map((e)=>{
                         if(e.estado !== ''){
-                            return{...e,aceptar:<Button variant="warning" onClick={()=>{contratado(e)}}>
+                            return{...e,aceptar:<Button variant="warning" onClick={()=>{aceptado(e)}}>
                                 Aceptar
                             </Button>,rechazar:<Button variant="danger" onClick={()=>{rechazado(e)}}>
                                 Rechazar
@@ -92,38 +92,19 @@ const EnviaCorreo = () => {
 
     },[])
 
-    const contratado = (datatable) => {
+    const aceptado = (datatable) => {
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        
-        var a = JSON.stringify({
-            "aplic": datatable
-        });
-
-        var requesOptions = {
-            method: 'PUT',
-            headers: myHeaders,
-            body: a,
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:9000/usuarios/modificar_planillaAplicante", requesOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
-        alert(datatable.nombre + ' ahora esta contratado!');
-        mensajin(datatable);
-    }
-
-    const mensajin = (datatable) =>{
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         let aplic = {
             usuario: datatable.nombre,
-            contrasenia: datatable.pass
+            apellido: datatable.apellido,
+            contrasenia: datatable.pass,
+            dpi: datatable.dpi,
+            correo: datatable.correo,
+            direccion: datatable.direccion,
+            telefono: datatable.telefono
         }
         console.log(aplic)
         var a = JSON.stringify({
@@ -137,14 +118,14 @@ const EnviaCorreo = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/envia_emailAplicante", requesOptions)
+        fetch("http://localhost:9000/usuarios/mensaje_aceptaExpediente", requesOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
         alert(' mensaje enviado :)');
-
     }
+
 
 
 
@@ -153,24 +134,34 @@ const EnviaCorreo = () => {
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        
+
+        let aplic = {
+            usuario: datatable.nombre,
+            apellido: datatable.apellido,
+            contrasenia: datatable.pass,
+            dpi: datatable.dpi,
+            correo: datatable.correo,
+            direccion: datatable.direccion,
+            telefono: datatable.telefono
+        }
+        console.log(aplic)
         var a = JSON.stringify({
-            "aplic": datatable
+            "aplic": aplic
         });
 
         var requesOptions = {
-            method: 'PUT',
+            method: 'POST',
             headers: myHeaders,
             body: a,
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/modificar_planillaAplicante2", requesOptions)
+        fetch("http://localhost:9000/usuarios/mensaje_rechazaExpediente", requesOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
-        alert(datatable.nombre + ' ha sido rechazado!');
+        alert(' mensaje enviado :)');
     }
 
 
@@ -195,4 +186,4 @@ const EnviaCorreo = () => {
 }
 
 
-export default EnviaCorreo
+export default FiltrarExpedientes

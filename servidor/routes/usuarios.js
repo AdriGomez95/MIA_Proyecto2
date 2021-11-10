@@ -16,15 +16,17 @@ router.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 //(admin, coordinador, reclutador, aplicante, undefined que es guest)
 //var usuario_logueado = {user: "Adri", rol: "admin"};
 //var usuario_logueado = {user: "Adri", rol: "coordinador"};
-var usuario_logueado = {user: "Adri", rol: "reclutador"};
+//var usuario_logueado = {user: "Adri", rol: "reclutador"};
 //var usuario_logueado = {user: "Adri", rol: "aplicante"};
-//var usuario_logueado;
+var usuario_logueado;
 
-router.get('/usuario_logueado', (req,res)=>{
+router.get('/usuario_logueado', async (req,res)=>{
+  
+
   res.send(usuario_logueado)
 })
 
-router.get('/limpiar_logueo', (req,res)=>{
+router.get('/limpiar_logueo', async (req,res)=>{
   usuario_logueado = undefined;
   res.send(usuario_logueado)
 
@@ -33,7 +35,10 @@ router.get('/limpiar_logueo', (req,res)=>{
 
 
 router.post("/login", async (req, res) => {
+  //usuario_logueado = undefined;
   const usu = req.body.usuario;
+  usuario_logueado = {user:usu.usuario, rol:usu.rol};
+  console.log("entro")
   console.log(usu)
   let retorno = false
 
@@ -41,13 +46,15 @@ router.post("/login", async (req, res) => {
           SELECT u.NOMBRE, u.CONTRASENIA FROM USUARIO u WHERE u.NOMBRE = '${usu.usuario}' AND u.CONTRASENIA ='${usu.contrasenia}'
   `).then(/*console.log*/);
 
-  usuario_logueado = {user:usu.usuario, rol:'admin'};
+  usuario_logueado = {user:usu.usuario, rol:usu.rol};
+  console.log("salio")
+  console.log(usuario_logueado)
 
 //var usuario_logueado = {user: "Adri", rol: "admin"};
-  res.send(retorno)
+  res.send(usuario_logueado)
 })
 
-
+ 
 
 
 

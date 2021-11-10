@@ -53,14 +53,14 @@ app.listen(9000, () => {
 
 
 
-
+/*
 //################## MANEJO DE ROLES DE USUARIO ##################
 //(admin, coordinador, reclutador, aplicante, undefined que es guest)
 //var usuario_logueado = {user: "Adri", rol: "admin"};
 //var usuario_logueado = {user: "Adri", rol: "coordinador"};
-var usuario_logueado = {user: "Adri", rol: "reclutador"};
+//var usuario_logueado = {user: "Adri", rol: "reclutador"};
 //var usuario_logueado = {user: "Adri", rol: "aplicante"};
-//var usuario_logueado;
+var usuario_logueado;
 
 app.get('/usuario_logueado', (req,res)=>{
   res.send(usuario_logueado)
@@ -70,7 +70,7 @@ app.get('/limpiar_logueo', (req,res)=>{
   usuario_logueado = undefined;
   res.send(usuario_logueado)
 })
-
+*/
 
 
 

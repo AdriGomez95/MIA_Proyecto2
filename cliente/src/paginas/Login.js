@@ -9,16 +9,20 @@ const Login = () => {
   //referencias para jalar los datos del usuario
   const nombre = useRef()        //nombre del usuario
   const contrasenia = useRef()    //contrasenia del usuario
+  const rol = useRef()    //contrasenia del usuario
 
   const Logear = async () => {
     let usuario1 = nombre.current.value
     let contrasenia1 = contrasenia.current.value
+    let rol1 = rol.current.value
     let usu = {
                 usuario: usuario1,
-                contrasenia: contrasenia1
+                contrasenia: contrasenia1,
+                rol: rol1
             }
     console.log("usuario: " + usuario1)
     console.log("contrasenia: " + contrasenia1)
+    console.log("rol: " + rol1)
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -38,6 +42,9 @@ const Login = () => {
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
+
+
+    window.location='/'
 
   }
 
@@ -77,6 +84,14 @@ const Login = () => {
                       <Form.Control type="password" placeholder="Password" ref={contrasenia}  />
                     </Col>
                   </Form.Group>
+                  <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+                    <Form.Label column sm={2}>
+                      Rol
+                    </Form.Label>
+                    <Col sm={10}>
+                      <Form.Control type="email" placeholder="admin, aplicante, reclutador, coordinador" ref={rol}  />
+                    </Col>
+                  </Form.Group>
                 </Form>
                 <br/><br/>
               </Col>
@@ -102,7 +117,7 @@ const Login = () => {
 
             <Row>
               <div className="d-grid gap-2">
-                <Button  onClick={Logear} variant="outline-primary" size="lg" >
+                <Button onClick={Logear} variant="outline-primary" size="lg" >
                   iniciar
                 </Button>
                 <Button variant="outline-secondary" size="lg" href='/'>

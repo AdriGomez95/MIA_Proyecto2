@@ -18,7 +18,7 @@ const Inicio = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuario_logueado", requestOptions)
+        fetch("http://localhost:9000/usuarios/usuario_logueado", requestOptions)
         .then(response => response.json())
         .then(result => setUsuario_logueado(result))
         .catch(error => console.log('error', error));

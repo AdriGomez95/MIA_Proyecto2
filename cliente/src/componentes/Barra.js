@@ -38,6 +38,7 @@ const Barra = () => {
         .then(result => setUsuario_logueado(result))
         .catch(error => console.log('error', error));
 
+
     }
 
 

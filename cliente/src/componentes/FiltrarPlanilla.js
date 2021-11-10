@@ -69,7 +69,7 @@ const FiltrarPlanilla = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/aplicantes", requestOptions)
+        fetch("http://localhost:9000/usuarios/planicoordinador", requestOptions)
         .then(response => response.json())
         .then(result => {
                     var filas = result.map((e)=>{
@@ -78,7 +78,7 @@ const FiltrarPlanilla = () => {
                                 Aceptar
                             </Button>,rechazar:<Button variant="warning" onClick={()=>{rechazado(e)}}>
                                 Rechazar
-                            </Button>,despedir:<Button variant="danger" onClick={()=>{rechazado(e)}}>
+                            </Button>,despedir:<Button variant="danger" onClick={()=>{eliminado(e)}}>
                                 Despedir
                             </Button>}
                         }else{
@@ -94,10 +94,77 @@ const FiltrarPlanilla = () => {
     },[])
 
     const contratado = (datatable) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "aplic": datatable
+        });
+
+        var requesOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/usuarios/modificar_planillaAplicante", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
         alert(datatable.nombre + ' ahora esta contratado!');
     }
+
+
+
     const rechazado = (datatable) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "aplic": datatable
+        });
+
+        var requesOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/usuarios/modificar_planicoor2", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
         alert(datatable.nombre + ' ha sido rechazado!');
+    }
+
+
+
+    const eliminado = (datatable) => {
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "aplic": datatable
+        });
+
+        var requesOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/usuarios/modificar_planicoor3", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+        alert(datatable.nombre + ' ha sido eliminado!');
     }
 
 

@@ -108,6 +108,31 @@ const FiltrarAplicantes = () => {
         .catch(error => console.log('error', error));
 
         alert(datatable.nombre + ' ahora esta contratado!');
+        //mensajin(datatable);
+    }
+
+    const mensajin = (datatable) =>{
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        
+        var a = JSON.stringify({
+            "aplic": datatable
+        });
+
+        var requesOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: a,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:9000/usuarios/envia_email", requesOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+
+        alert(datatable.nombre + ' mensaje enviado :)');
+
     }
 
 

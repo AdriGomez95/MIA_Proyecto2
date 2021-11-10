@@ -43,7 +43,7 @@ const Login = () => {
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
 
-
+    alert('espere...')
     window.location='/'
 
   }

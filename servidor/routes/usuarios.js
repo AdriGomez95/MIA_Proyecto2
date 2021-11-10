@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var router = express.Router();
+const nodemailer = require('nodemailer');
 
 const service = require("./connection.js");
 const cors = require("cors");
@@ -37,27 +38,94 @@ router.get('/limpiar_logueo', async (req,res)=>{
 router.post("/login", async (req, res) => {
   //usuario_logueado = undefined;
   const usu = req.body.usuario;
-  usuario_logueado = {user:usu.usuario, rol:usu.rol};
-  console.log("entro")
-  console.log(usu)
+  //console.log("entro")
+  //console.log(usu)
   let retorno = false
 
-  await service.connect(`
-          SELECT u.NOMBRE, u.CONTRASENIA FROM USUARIO u WHERE u.NOMBRE = '${usu.usuario}' AND u.CONTRASENIA ='${usu.contrasenia}'
-  `).then(/*console.log*/);
+  if(usu.rol == "aplicante"){
+    //console.log("entro a aplicante")
+    await service.connect(`
+            SELECT u.NOMBRE, u.CONTRASENIA FROM USUARIO u WHERE u.NOMBRE = '${usu.usuario}' AND u.CONTRASENIA ='${usu.contrasenia}'
+    `).then(/*console.log*/);
+  
+  }else{
+    //console.log("entro a empleado")
+    await service.connect(`
+                        SELECT e.USUARIO, e.CONTRASENIA FROM EMPLEADO e WHERE e.USUARIO = '${usu.usuario}' AND e.CONTRASENIA ='${usu.contrasenia}
+                      `).then(/*console.log*/);
+  
+  }
+
 
   usuario_logueado = {user:usu.usuario, rol:usu.rol};
-  console.log("salio")
-  console.log(usuario_logueado)
+  //console.log("salio")
+  //console.log(usuario_logueado)
 
 //var usuario_logueado = {user: "Adri", rol: "admin"};
-  res.send(usuario_logueado)
+  res.send(retorno)
 })
 
  
 
 
+//#################### estos son para la planilla del coordinador
+var planilla = []
+router.get('/planicoordinador', async (req,res)=>{
+  planilla.splice(0,planilla.length)
+    await service.connect(`                          
+                          SELECT u.NOMBRE, u.APELLIDO, u.DPI, p2.NOMBRE, p2.SALARIO, p.ESTADOCOO 
+                          FROM PLANILLA p 
+                          INNER JOIN USUARIO u ON p.ID_USUARIO = u.ID_USUARIO 
+                          INNER JOIN PUESTO p2 ON p.ID_PUESTO = p2.ID_PUESTO 
+                          WHERE p.ESTADO = 'aceptado'
+                        `).then(filas=>{
+                          filas.data.forEach(element => {
+                            planilla.push({nombre:element.NOMBRE,apellido:element.APELLIDO,dpi:element.DPI, puesto:element.NOMBRE_1, salario:element.SALARIO,estado:element.ESTADOCOO})
+                            //console.log(element)
+                        })
+                    })
+                    
+  res.send(planilla)
+})
 
+router.put("/modificar_planicoor", async (req, res) => {
+  const apli = req.body.aplic;
+  let retorno = false
+
+  await service.connect(`
+          UPDATE PLANILLA p SET p.ESTADOCOO = 'aceptado' 
+        WHERE p.ID_USUARIO = (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${apli.nombre}')
+     `).then(/*console.log*/)
+  
+  res.send(retorno)
+
+})
+
+router.put("/modificar_planicoor2", async (req, res) => {
+  const apli = req.body.aplic;
+  let retorno = false
+
+  await service.connect(`
+          UPDATE PLANILLA p SET p.ESTADOCOO = 'rechazado' 
+        WHERE p.ID_USUARIO = (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${apli.nombre}')
+     `).then(/*console.log*/)
+  
+  res.send(retorno)
+
+})
+
+router.put("/modificar_planicoor3", async (req, res) => {
+  const apli = req.body.aplic;
+  let retorno = false
+
+  await service.connect(`
+          UPDATE PLANILLA p SET p.ESTADOCOO = 'eliminado' 
+        WHERE p.ID_USUARIO = (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${apli.nombre}')
+     `).then(/*console.log*/)
+  
+  res.send(retorno)
+
+})
 
 
 
@@ -110,6 +178,38 @@ router.put("/modificar_planillaAplicante2", async (req, res) => {
 
 
 
+router.post("/envia_email", async(req,res)=>{
+
+  console.log("entro a mensajes")
+  let retorno = false
+  let transporter = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: "bc686dc6a8d146", // generated ethereal user
+      pass: "9129a1654d4498" // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  return transporter.sendMail({
+    from: '"mensaje prueba!!" <foo@example.com>', // sender address
+    to: "bar@example.com", // list of receivers
+    subject: "enviado desde la aplicacion", // Subject line
+    text: "adios mundo", // plain text body
+  }, (err,info)=>{
+      if(err) res.status(200).send({success:false, error: err});
+      
+      return res.status(200).send({
+          success: true,
+          message: 'email enviado'
+      });
+  });
+})
+ 
+
+
 //############################ TODO LO DE USUARIOS/APLICANTES ###########################
 
 router.post("/crear_aplicante", async (req, res) => {
@@ -133,9 +233,9 @@ router.post("/crear_aplicante", async (req, res) => {
 
   //para la tabla planilla
   await service.connect(`
-                INSERT INTO PLANILLA (ESTADO, ID_PUESTO, ID_USUARIO)
+                INSERT INTO PLANILLA (ESTADO, ID_PUESTO, ID_USUARIO, ESTADOCOO)
                 VALUES ('pendiente',(SELECT p.ID_PUESTO FROM PUESTO p WHERE p.NOMBRE = '${apli.puesto}'),
-                (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${apli.nombre}'))
+                (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${apli.nombre}'),'pendiente')
       `).then(/*console.log*/);
 
 

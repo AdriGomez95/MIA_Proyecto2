@@ -153,6 +153,19 @@ router.get('/expedientes', async (req,res)=>{
                     
     res.send(expi)
 })
+
+router.put("/modificar_apli", async (req, res) => {
+  const empli = req.body.empleado;
+  let retorno = false
+
+  await service.connect(`
+          UPDATE EMPLEADO e SET e.CONTRASENIA = '${empli.contrasenia}', e.ROL = '${empli.rol}' WHERE e.USUARIO = '${empli.usuario}'
+      `).then(console.log)
+  
+  res.send(retorno)
+
+})
+
 //%%%%%%%%%%%% filtra aplicantes
 //var aplicantes = [{id:1,nombre:'aplicante 1',apellido:'aplicante 1',dpi:1,puesto:'puesto',salario:'Q5000',estado:'aceptado'},{id:2,nombre:'aplicante 2',apellido:'aplicante 2',dpi:2,puesto:'puesto 2',salario:'Q8000',estado:'pendiente'}]
 var aplicantes = []

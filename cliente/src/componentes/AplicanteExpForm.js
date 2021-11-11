@@ -24,7 +24,6 @@ const AplicanteExpForm = () => {
     },[])
 
     //referencias para jalar los datos del usuario
-    const puesto = useRef()     //puesto del usuario
     const dpi = useRef()        //dpi del usuario
     const nombres = useRef()    //nombres del usuario
     const apellidos = useRef()  //apellidos del usuario
@@ -33,7 +32,6 @@ const AplicanteExpForm = () => {
     const direccion = useRef()  //direccion del usuario
 
     const NuevoUsuario2 = async () => {
-        let puesto1 = puesto.current.value
         let dpi1 = dpi.current.value
         let nombres1 = nombres.current.value
         let apellidos1 = apellidos.current.value
@@ -43,7 +41,6 @@ const AplicanteExpForm = () => {
 
 
         let apli = {
-                    puesto: puesto1,
                     dpi: dpi1,
                     nombre: nombres1,
                     apellido: apellidos1,
@@ -51,14 +48,6 @@ const AplicanteExpForm = () => {
                     direccion: direccion1,
                     telefono: telefono1
                 }
-        /*
-        console.log("dpi: " + dpi1)
-        console.log("nombre: " + nombres1)
-        console.log("apellido: " + apellidos1)
-        console.log("correo: " + correo1)
-        console.log("direccion: " + direccion1)
-        console.log("telefono: " + telefono1)
-        */
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -74,7 +63,7 @@ const AplicanteExpForm = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/crear_aplicante", requesOptions)
+        fetch("http://localhost:9000/usuarios/modificar_apli", requesOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -96,19 +85,6 @@ const AplicanteExpForm = () => {
 
 
             
-            <Form.Label column lg={2}>
-                Puesto
-            </Form.Label>
-            <Form.Group controlId="formGridState">
-                        <Form.Select defaultValue="Choose..." ref={puesto}>
-                            {
-                                puestos.map((option,index) => {
-                                    return (<option key={index} value={option}>{option}</option>)
-                                })
-                            }
-                </Form.Select>
-            </Form.Group>
-
 
 
 

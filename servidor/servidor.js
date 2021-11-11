@@ -45,8 +45,26 @@ app.use("/Departamentos", departamentos);
 app.use("/Documentos", documentos);
 
 
-app.listen(9000, () => {
+
+
+
+
+const pd = app.listen(9000, () => {
   console.debug("Servidor escuchando en puerto: 9000");
+});
+
+
+const io = require("socket.io")(pd, 
+  {  
+    cors: {    origin: "http://localhost:3000",  
+  }
+});
+
+io.on("connection", (socket) => {
+  
+  socket.on("probando", ()=>{
+    console.log("yes yes")
+  })
 });
 
 

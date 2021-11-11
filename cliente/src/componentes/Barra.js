@@ -182,7 +182,6 @@ const Barra = () => {
                             <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
                             <Nav.Link href='/calificar_puesto'>calificar puesto</Nav.Link>
                             
-                            
                         </Nav>
                     </Container>
                 </Navbar>

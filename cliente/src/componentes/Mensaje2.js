@@ -8,7 +8,7 @@ const ENDPOINT = "http://localhost:9000/routes/usuarios";
 const socket = socketIOClient(ENDPOINT, {transports:['websocket']});
 
 
-const Mensaje = () => {
+const Mensaje2 = () => {
     
     const mandar = () => {
         socket.emit("probando")
@@ -52,7 +52,7 @@ const Mensaje = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/crear_mensaje", requesOptions)
+        fetch("http://localhost:9000/usuarios/crear_mensaje2", requesOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -155,4 +155,4 @@ const Mensaje = () => {
 
 
 
-export default Mensaje
+export default Mensaje2

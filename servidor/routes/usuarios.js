@@ -495,4 +495,89 @@ router.get('/listado_empleados', async (req,res)=>{
 
 
 
+
+
+
+
+
+//################## MANEJO DE MENSAJES ##################
+let usuarioparamensaje;
+router.post("/crear_mensaje", async (req, res) => {
+  const msj = req.body.mensaje;
+  //console.log(empli)
+  let retorno = false
+  usuarioparamensaje = msj.usuario;
+  
+  await service.connect(`  
+        INSERT INTO MENSAJE (TEXTO,FECHA,ID_USUARIO,ID_EMPLEADO)
+        VALUES ('${msj.mensaje}',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),
+        (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${msj.usuario}'),
+        (SELECT e.ID_EMPLEADO FROM EMPLEADO e
+        INNER JOIN USUARIO u2 ON u2.ID_EMPLEADO = e.ID_EMPLEADO
+        WHERE u2.NOMBRE = '${msj.usuario}'))  
+  `).then(/*console.log*/);
+  res.send(retorno)
+})
+
+var ddd = []
+router.get('/mensajines', async (req,res)=>{
+  ddd.splice(0,ddd.length)
+    await service.connect(`
+                            SELECT m.TEXTO,m.FECHA  FROM MENSAJE m 
+                            INNER JOIN USUARIO u ON u.ID_USUARIO = m.ID_USUARIO 
+                            INNER JOIN EMPLEADO e ON m.ID_EMPLEADO = e.ID_EMPLEADO
+                            WHERE u.NOMBRE = '${usuarioparamensaje}'
+                        `).then(filas=>{
+                          filas.data.forEach(element => {
+                            ddd.push({texto:element.TEXTO,fecha:element.FECHA})
+                              //console.log(element)
+                        })
+                    })
+                    
+    res.send(ddd)
+})
+
+
+router.post("/crear_mensaje2", async (req, res) => {
+  const msj = req.body.mensaje;
+  //console.log(empli)
+  let retorno = false
+  usuarioparamensaje = msj.usuario;
+  
+  await service.connect(`  
+        INSERT INTO MENSAJE (TEXTO,FECHA,ID_USUARIO,ID_EMPLEADO)
+        VALUES ('${msj.mensaje}',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),
+        (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${msj.usuario}'),
+        (SELECT e.ID_EMPLEADO FROM EMPLEADO e
+        INNER JOIN USUARIO u2 ON u2.ID_EMPLEADO = e.ID_EMPLEADO
+        WHERE u2.NOMBRE = '${msj.usuario}'))  
+  `).then(/*console.log*/);
+  res.send(retorno)
+})
+
+
+
+
+
+
+
+/*
+const io = require("socket.io")(service, 
+  {  
+    cors: {    origin: "http://localhost:3000",  
+  }
+});
+
+io.on("connection", (socket) => {
+  //console.log(`texto enviado :o ` );
+  
+  socket.on("probando", ()=>{
+    console.log("cambio :o")
+  })
+});
+*/
+
+
+
+
 module.exports = router;

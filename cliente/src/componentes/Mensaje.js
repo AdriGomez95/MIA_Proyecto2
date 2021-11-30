@@ -134,13 +134,13 @@ const Mensaje = () => {
                     <Col>
                     <Form.Control type="text" placeholder="Normal text"  ref={mensaje} />
                     </Col>
-                    
+                    {/* 
                     <Col>
                         <Button  onClick={mandar}>
                             socket
                         </Button>
                     </Col>
-                     
+                     */}
                 </Row>
             </Container>
             <br/><br/>        

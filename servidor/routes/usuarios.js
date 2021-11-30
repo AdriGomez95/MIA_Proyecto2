@@ -155,12 +155,18 @@ router.get('/expedientes', async (req,res)=>{
 })
 
 router.put("/modificar_apli", async (req, res) => {
-  const empli = req.body.empleado;
+  const empli = req.body.aplicante;
   let retorno = false
 
   await service.connect(`
-          UPDATE EMPLEADO e SET e.CONTRASENIA = '${empli.contrasenia}', e.ROL = '${empli.rol}' WHERE e.USUARIO = '${empli.usuario}'
-      `).then(console.log)
+                  UPDATE USUARIO u SET 
+                  u.DPI = '${empli.dpi}', 
+                  u.APELLIDO = '${empli.apellido}', 
+                  u.CORREO = '${empli.correo}', 
+                  u.DIRECCION = '${empli.direccion}', 
+                  u.TELEFONO = '${empli.telefono}'
+                  WHERE u.NOMBRE = '${empli.nombre}'      
+          `).then(console.log)
   
   res.send(retorno)
 
@@ -396,7 +402,9 @@ router.post("/crear_aplicante", async (req, res) => {
             INNER JOIN DEPARTAMENTO d ON e.ID_DEPARTAMENTO = d.ID_DEPARTAMENTO 
             INNER JOIN PUESTO_DEPARTAMENTO pd ON d.ID_DEPARTAMENTO = pd.ID_DEPARTAMENTO 
             INNER JOIN PUESTO p ON pd.ID_PUESTO = p.ID_PUESTO
-            WHERE p.NOMBRE = '${apli.puesto}'))
+            INNER JOIN ROL r2 ON r2.ID_ROL = e.ID_ROL 
+            WHERE p.NOMBRE = '${apli.puesto}' 
+            AND r2.NOMBRE = 'revisor'))
       `).then(/*console.log*/);
 
 
@@ -538,23 +546,43 @@ router.get('/mensajines', async (req,res)=>{
 })
 
 
+let usuarioparamensaje2;
+let aplicanteparamensaje2;
 router.post("/crear_mensaje2", async (req, res) => {
   const msj = req.body.mensaje;
   //console.log(empli)
   let retorno = false
-  usuarioparamensaje = msj.usuario;
+  usuarioparamensaje2 = msj.usuario;
+  aplicanteparamensaje2 = msj.aplicante;
   
   await service.connect(`  
-        INSERT INTO MENSAJE (TEXTO,FECHA,ID_USUARIO,ID_EMPLEADO)
-        VALUES ('${msj.mensaje}',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),
-        (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${msj.usuario}'),
-        (SELECT e.ID_EMPLEADO FROM EMPLEADO e
-        INNER JOIN USUARIO u2 ON u2.ID_EMPLEADO = e.ID_EMPLEADO
-        WHERE u2.NOMBRE = '${msj.usuario}'))  
+                    INSERT INTO MENSAJE (TEXTO,FECHA,ID_USUARIO,ID_EMPLEADO)
+                    VALUES ('${msj.mensaje}',TO_DATE('2003/05/03 21:02:44', 'yyyy/mm/dd hh24:mi:ss'),
+                    (SELECT u.ID_USUARIO FROM USUARIO u 
+                    INNER JOIN EMPLEADO e3 ON u.ID_EMPLEADO = e3.ID_EMPLEADO 
+                    WHERE e3.USUARIO = '${msj.usuario}' AND u.NOMBRE = '${msj.aplicante}'),
+                    (SELECT e2.ID_EMPLEADO FROM EMPLEADO e2 WHERE e2.USUARIO = '${msj.usuario}')) 
   `).then(/*console.log*/);
   res.send(retorno)
 })
 
+var ffa = []
+router.get('/mensajines2', async (req,res)=>{
+  ffa.splice(0,ffa.length)
+    await service.connect(`
+                          SELECT m.TEXTO,m.FECHA FROM MENSAJE m 
+                          INNER JOIN USUARIO u2 ON m.ID_USUARIO = u2.ID_USUARIO 
+                          INNER JOIN EMPLEADO e2 ON u2.ID_EMPLEADO = e2.ID_EMPLEADO 
+                          WHERE e2.USUARIO = '${usuarioparamensaje2}' AND u2.NOMBRE = '${aplicanteparamensaje2}'
+                        `).then(filas=>{
+                          filas.data.forEach(element => {
+                            ffa.push({texto:element.TEXTO,fecha:element.FECHA})
+                              //console.log(element)
+                        })
+                    })
+                    
+    res.send(ffa)
+})
 
 
 

@@ -27,14 +27,17 @@ const Mensaje2 = () => {
 
     //referencias para jalar los datos del usuario
     const nombre = useRef()     //nombre del usuario
+    const aplicante = useRef()     //nombre del usuario
     const mensaje = useRef()       //password del usuario
 
     //metodo para mandar con el backend
     const CrearMSJ = async () => {
         let usuario = nombre.current.value
+        let aplicante1 = aplicante.current.value
         let mensaje1 = mensaje.current.value
         let emp = {
                     usuario: usuario,
+                    aplicante: aplicante1,
                     mensaje: mensaje1
                 }
 
@@ -89,7 +92,7 @@ const Mensaje2 = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:9000/usuarios/mensajines", requestOptions)
+        fetch("http://localhost:9000/usuarios/mensajines2", requestOptions)
         .then(response => response.json())
         .then(result => setDatatable({columns:columns,rows:result}))
         .catch(error => console.log('error', error));
@@ -125,6 +128,16 @@ const Mensaje2 = () => {
                     */}
                 </Row>
                 <Row>
+                    <Form.Label column lg={2}>
+                    Aplicante
+                    </Form.Label>
+                    <Col>
+                    <Form.Control type="text" placeholder="Normal text"  ref={aplicante} />
+                    </Col>
+                    <Col>
+                    </Col>
+                </Row>
+                <Row>
                     <Col><br/> <br/></Col>                   
                 </Row>
                 <Row>
@@ -134,13 +147,13 @@ const Mensaje2 = () => {
                     <Col>
                     <Form.Control type="text" placeholder="Normal text"  ref={mensaje} />
                     </Col>
-                    
+                    {/*
                     <Col>
                         <Button  onClick={mandar}>
                             socket
                         </Button>
                     </Col>
-                     
+                      */}
                 </Row>
             </Container>
             <br/><br/>        

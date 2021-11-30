@@ -61,7 +61,7 @@ const Barra = () => {
                                 <Nav.Link href="/crear_usuario">crear usuarios</Nav.Link>
                                 <Nav.Link href="/editar_usuario">editar usuarios</Nav.Link>
                                 <Nav.Link href="/eliminar_usuario">eliminar usuarios</Nav.Link>
-                                <Nav.Link href="/mensaje">mensajes</Nav.Link>
+                                <Nav.Link href="/mensaje2">mensajes</Nav.Link>
                                 <Nav.Link onClick={sale} href="/">cerrar sesion</Nav.Link>
                             </Nav>
                         </Container>
@@ -83,6 +83,7 @@ const Barra = () => {
                                 <Nav.Link href="/">principal</Nav.Link>
                                 <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
                                 <Nav.Link href="/ver_expe">ver/editar expediente</Nav.Link>
+                                <Nav.Link href="/ver_docs">ver/editar documentos</Nav.Link>
                                 <Nav.Link href="/mensaje">mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>
                             </Nav>
@@ -106,7 +107,7 @@ const Barra = () => {
                                 <Nav.Link href="/revisar_aplicantes">aceptar/rechazar aplicantes</Nav.Link>
                                 <Nav.Link href="/revisar_documentos">aceptar/rechazar documentos</Nav.Link>
                                 <Nav.Link href='/filtra_expedientes'>ver expedientes</Nav.Link>
-                                <Nav.Link href="/mensaje">Mensajeria</Nav.Link>
+                                <Nav.Link href="/mensaje2">Mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>
                             </Nav>
                         </Container>
@@ -129,7 +130,7 @@ const Barra = () => {
                                 <h1>coordinador</h1>
                                 <Nav.Link href="/">principal</Nav.Link>
                                 <Nav.Link href="/administrar_planilla">administrar planilla</Nav.Link>
-                                <Nav.Link href="/mensaje">Mensajeria</Nav.Link>
+                                <Nav.Link href="/mensaje2">Mensajeria</Nav.Link>
                                 <Nav.Link href="/" onClick={sale}>cerrar sesion</Nav.Link>
                             </Nav>
                         </Container>
@@ -181,6 +182,10 @@ const Barra = () => {
                             <Nav.Link href='/login'>iniciar sesion</Nav.Link>
                             <Nav.Link href="/aplicar">postular a trabajo</Nav.Link>
                             <Nav.Link href='/calificar_puesto'>calificar puesto</Nav.Link>
+                            <Nav.Link href='/reporte1'>reporte 1</Nav.Link>
+                            <Nav.Link href='/reporte2'>reporte 2 y 3</Nav.Link>
+                            <Nav.Link href='/reporte4'>reporte 4</Nav.Link>
+                            <Nav.Link href='/reporte5'>reporte 5</Nav.Link>
                             
                         </Nav>
                     </Container>

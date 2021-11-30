@@ -12,13 +12,18 @@ const FiltrarDocumentos = () => {
     useEffect(() => {
         const columns = [
             {
-            label: 'Nombres',
+            label: 'Nombre documento',
             field: 'nombre',
             width: 150,
             attributes: {
                 'aria-controls': 'DataTable',
                 'aria-label': 'Nombres',
             },
+            },
+            {
+            label: 'Nombre aplicante',
+            field: 'aplicante',
+            width: 200,
             },
             {
             label: 'Estado',
@@ -33,6 +38,16 @@ const FiltrarDocumentos = () => {
             {
             label: 'Conteo de rechazos',
             field: 'rechazos',
+            width: 200,
+            },
+            {
+            label: 'Formato',
+            field: 'formato',
+            width: 200,
+            },
+            {
+            label: 'Link',
+            field: 'link',
             width: 200,
             },
 

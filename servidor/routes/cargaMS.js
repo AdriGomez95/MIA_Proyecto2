@@ -47,7 +47,7 @@ var formato_requisito_repetidos = [];
         //console.log(data)
         aqui(data)
         console.log("adios :)")
-        console.log(formato_requisito_repetidos)
+        //console.log(formato_requisito_repetidos)
     })
   
   

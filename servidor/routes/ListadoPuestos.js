@@ -38,6 +38,81 @@ router.get('/listado_puestos', async (req,res)=>{
 })
 
 
+var puestosreporte1 = []
+router.get('/listado_puestosreporte1', async (req,res)=>{
+    puestosreporte1.splice(0,puestosreporte1.length)
+    await service.connect(`
+    SELECT p.NOMBRE, p.SALARIO, d.NOMBRE, d.CAPITAL_TOTAL FROM PUESTO p 
+    INNER JOIN PUESTO_DEPARTAMENTO pd ON pd.ID_PUESTO = p.ID_PUESTO 
+    INNER JOIN DEPARTAMENTO d ON d.ID_DEPARTAMENTO = pd.ID_DEPARTAMENTO
+                    `).then(filas=>{
+                        filas.data.forEach(element => {
+                            puestosreporte1.push({puesto:element.NOMBRE, salario:element.SALARIO, departamento:element.NOMBRE_1, capital:element.CAPITAL_TOTAL})
+                            
+                        })
+                    })
+                    
+                        
+    res.send(puestosreporte1)
+})
+var puestosreporte2 = []
+router.get('/listado_puestosreporte2', async (req,res)=>{
+    puestosreporte2.splice(0,puestosreporte2.length)
+    await service.connect(`
+                        SELECT u.NOMBRE, p.ESTADOCOO, p2.NOMBRE, d.NOMBRE FROM PLANILLA p 
+                        INNER JOIN PUESTO p2 ON p.ID_PUESTO = p2.ID_PUESTO 
+                        INNER JOIN PUESTO_DEPARTAMENTO pd ON pd.ID_PUESTO = p2.ID_PUESTO 
+                        INNER JOIN DEPARTAMENTO d ON d.ID_DEPARTAMENTO = pd.ID_DEPARTAMENTO 
+                        INNER JOIN USUARIO u ON u.ID_USUARIO = p.ID_USUARIO 
+                        WHERE p.ESTADOCOO = 'aceptado'
+                    `).then(filas=>{
+                        filas.data.forEach(element => {
+                            puestosreporte2.push({aplicante:element.NOMBRE, estado:element.ESTADOCOO, puesto:element.NOMBRE_1, departamento:element.NOMBRE_2})
+                            
+                        })
+                    })
+                    
+                        
+    res.send(puestosreporte2)
+})
+var puestosreporte4 = []
+router.get('/listado_puestosreporte4', async (req,res)=>{
+    puestosreporte4.splice(0,puestosreporte4.length)
+    await service.connect(`
+    SELECT d.NOMBRE, u.NOMBRE, u.APELLIDO FROM PLANILLA p 
+INNER JOIN PUESTO p2 ON p2.ID_PUESTO = p.ID_PUESTO 
+INNER JOIN PUESTO_DEPARTAMENTO pd ON pd.ID_PUESTO = p.ID_PUESTO 
+INNER JOIN DEPARTAMENTO d ON d.ID_DEPARTAMENTO = pd.ID_DEPARTAMENTO 
+INNER JOIN USUARIO u ON u.ID_USUARIO = p.ID_USUARIO
+                    `).then(filas=>{
+                        filas.data.forEach(element => {
+                            puestosreporte4.push({departamento:element.NOMBRE, nombre:element.NOMBRE_1, apellido:element.APELLIDO})
+                            
+                        })
+                    })
+                    
+                        
+    res.send(puestosreporte4)
+})
+var puestosreporte5 = []
+router.get('/listado_puestosreporte5', async (req,res)=>{
+    puestosreporte5.splice(0,puestosreporte5.length)
+    await service.connect(`
+    SELECT d.NOMBRE, u.NOMBRE, d.ESTADO, d.RECHAZOS FROM DOCUMENTO d 
+    INNER JOIN USUARIO u ON u.ID_USUARIO = d.ID_USUARIO 
+    WHERE d.ESTADO = 'rechazado'
+                    `).then(filas=>{
+                        filas.data.forEach(element => {
+                            puestosreporte5.push({documento:element.NOMBRE, aplicante:element.NOMBRE_1, estado:element.ESTADO, rechazos:element.RECHAZOS})
+                            
+                        })
+                    })
+                    
+                        
+    res.send(puestosreporte5)
+})
+
+
 /*
 
 DELETE FROM DEPARTAMENTO d; 

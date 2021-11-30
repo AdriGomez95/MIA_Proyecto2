@@ -147,12 +147,12 @@ const Documento = () => {
             <Form.Label column lg={2}>
                 Link
             </Form.Label>                    
-            <Form.Control type="password" placeholder="Normal text"ref={link}  />
+            <Form.Control type="text" placeholder="Normal text"ref={link}  />
                    
             <Form.Label column lg={2}>
                 Formato
             </Form.Label>                    
-            <Form.Control type="password" placeholder="Normal text" ref={formato} />
+            <Form.Control type="text" placeholder="Normal text" ref={formato} />
                    
 
 

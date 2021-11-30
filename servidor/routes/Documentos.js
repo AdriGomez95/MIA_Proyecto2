@@ -30,7 +30,38 @@ router.post("/crear_documento", async (req, res) => {
          
     res.send(retorno)
   })
+  var documentosfiltrados = []
+  router.get('/filtra_docsAplicante', async (req,res)=>{
+    documentosfiltrados.splice(0,documentosfiltrados.length)
+      await service.connect(`                          
+                            SELECT d.NOMBRE, u.NOMBRE, d.ESTADO, d.RECHAZOS, d.FORMATO, d.LINK 
+                            FROM DOCUMENTO d
+                            INNER JOIN USUARIO u ON d.ID_USUARIO = u.ID_USUARIO 
+                          `).then(filas=>{
+                            filas.data.forEach(element => {
+                              documentosfiltrados.push({nombre:element.NOMBRE,aplicante:element.NOMBRE_1,estado:element.ESTADO, rechazos:element.RECHAZOS, formato:element.FORMATO, link:element.LINK})
+                                //console.log(element)
+                          })
+                      })
+                      
+      res.send(documentosfiltrados)
+  })
 
+  router.put("/actualizaDatos_Aplicante", async (req, res) => {
+    const doc = req.body.doc;
+    //console.log(doc)
+    let retorno = false
+  
+    await service.connect(`
+              UPDATE DOCUMENTO p SET p.FORMATO = '${doc.formato}', 
+              p.LINK = '${doc.link}'
+              WHERE p.ID_USUARIO = (SELECT u.ID_USUARIO FROM USUARIO u WHERE u.NOMBRE = '${doc.nombre}')
+              AND p.NOMBRE = '${doc.documentoname}'
+        `).then(console.log)
+    
+    res.send(retorno)
+  
+  })
 
   router.put("/actualizaDatos", async (req, res) => {
     const doc = req.body.doc;
@@ -58,12 +89,14 @@ router.post("/crear_documento", async (req, res) => {
 var documentos = []
 router.get('/documentos', async (req,res)=>{
     documentos.splice(0,documentos.length)
-    await service.connect(`
-                            SELECT d.NOMBRE, d.ESTADO, d.MOTIVO, d.RECHAZOS FROM DOCUMENTO d
+    await service.connect(`                         
+    SELECT d.NOMBRE, u.NOMBRE, d.ESTADO, d.RECHAZOS, d.FORMATO, d.LINK 
+    FROM DOCUMENTO d
+    INNER JOIN USUARIO u ON d.ID_USUARIO = u.ID_USUARIO 
                         `).then(filas=>{
                           filas.data.forEach(element => {
-                            documentos.push({nombre:element.NOMBRE,estado:element.ESTADO,motivo:element.MOTIVO, rechazos:element.RECHAZOS})
-                              //console.log(element)
+                            documentos.push({nombre:element.NOMBRE,aplicante:element.NOMBRE_1,estado:element.ESTADO,motivo:element.MOTIVO, rechazos:element.RECHAZOS, formato:element.FORMATO, link:element.LINK})
+                                //console.log(element)
                         })
                     })
                     

@@ -1,0 +1,55 @@
+//AQUI PARA VER LOS CORREOS ENVIADOS SEGUN LA LOGICA DEL PROYECTO gml
+https://mailtrap.io/
+
+//COMANDO PARA INICIAR EL SERVIDOR Y CLIENTE EN LA TERMINAL
+npm start
+
+
+
+
+
+//INSTALAR DOCKER CON EL LINK
+//CORRER ORACLE SOBRE DOCKER CON EL PDF
+//ORACLE
+usuario: dbadri
+pass: 123
+
+//ID del contenedor
+12f5feab9eb3
+
+//IP del contenedor
+172.17.0.2
+
+
+
+
+
+//DESCARGAR ZIP DEL INSTANT CLIENT 18.5
+//descomprimirlo en /opt/oracle
+//agregar el path e instant client
+
+//levantar el contenedor de docker con el ID para iniciar siempre la db
+sudo docker start 12f5feab9eb3
+sudo docker exec -it 12f5feab9eb3 bash
+
+//en el caso de oracle18 se ejecutan los sig. comandos para iniciar sesion
+sh post_install.sh
+sqlplus
+
+
+
+//PARA CONECTAR LA DB CON NODE, SE INSTALA "INSTANT CLIENT"
+//descargar el zip de la 18.5
+https://www.oracle.com/database/technologies/instant-client/linux-x86-64-downloads.html
+
+//crear un folder oracle en /opt
+sudo mkdir -p /opt/oracle
+
+//para descomprimirlo, poner la terminal en el directorio donde esta el zip guardado y hacer:
+unzip 'nombredelarchivo' -d /opt/oracle
+
+
+//abrir el bash con nano y agregar esto
+export PATH=/opt/oracle/instantclient_18_5:$PATH
+
+

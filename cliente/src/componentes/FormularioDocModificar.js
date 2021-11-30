@@ -4,24 +4,8 @@ import { Form, Button } from 'react-bootstrap';
 
 
 
-const AplicanteExpForm = () => {
-    const [puestos, setPuestos] = useState([])
+const FormularioDocModificar = () => {
 
-
-    useEffect(() => {
-        var formdata = new FormData();
-        var requestOptions = {
-            method: 'GET',
-            data: formdata,
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:9000/ListadoPuestos/puestitoscalif", requestOptions)
-        .then(response => response.json())
-        .then(result => setPuestos(result))
-        .catch(error => console.log('error', error));
-
-    },[])
 
     //referencias para jalar los datos del usuario
     const dpi = useRef()        //dpi del usuario
@@ -57,7 +41,7 @@ const AplicanteExpForm = () => {
         });
 
         var requesOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: a,
             redirect: 'follow'
@@ -73,18 +57,15 @@ const AplicanteExpForm = () => {
     return (
         <div>            
             <br/><br/>
-            <h1 className="h1">Modifica tu expediente</h1> 
+            <h1 className="h1">Modifica tus datos</h1> 
                         
             <Button  onClick={NuevoUsuario2} variant="outline-warning" size="lg">
-                modificar expediente
+                enviar cambios
             </Button>  
             <br/><br/>
                     
 
 
-
-
-            
 
 
 
@@ -130,4 +111,4 @@ const AplicanteExpForm = () => {
     )
 }
 
-export default AplicanteExpForm
+export default FormularioDocModificar

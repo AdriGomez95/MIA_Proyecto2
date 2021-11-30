@@ -2,20 +2,22 @@ import React from 'react';
 import { Row, Col, Container} from 'react-bootstrap';
 
 import Barra from '../componentes/Barra'
-import AplicanteExpediente from '../componentes/AplicanteExpediente'
+import AplicanteDocs from '../componentes/AplicanteDocs'
 
-import FormularioDocModificar from '../componentes/FormularioDocModificar'
+import DocumentoModificar from '../componentes/DocumentoModificar'
 
-const AplicanteVerEditarExp = () => {
+
+
+const AplicanteEditarDocs = () => {
     return (
         <div>
             <Barra/>
-            <AplicanteExpediente/>
+            <AplicanteDocs/>
 
 <Container>
     <Row>
         <Col>
-            <FormularioDocModificar/>
+            <DocumentoModificar/>
         </Col>
     </Row>
 </Container>
@@ -29,4 +31,4 @@ const AplicanteVerEditarExp = () => {
 }
 
 
-export default AplicanteVerEditarExp
+export default AplicanteEditarDocs
